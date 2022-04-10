@@ -1,0 +1,652 @@
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="formcontacto" (ngSubmit)="guardarContacto($event)">
+  <div class="content-inner-all">
+    <!-- Breadcome start-->
+    <div class="breadcome-area mg-b-30 small-dn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcome-list shadow-reset">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="breadcome-heading">
+                    <button type="submit" (mouseover)="cargarRequeridos($event)"
+                      matTooltip="{{camposrequeridos}}" class="form-control">
+                      <i class="fa fa-save" aria-hidden="true"></i> Guardar
+                    </button>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="breadcome-menu">
+                    <li>
+                      <a routerLink="/main/dashboard">Inicio</a>
+                      <span class="bread-slash">/ Contactos /</span>
+                    </li>
+                    <li>
+                      <a routerLink="/main/dashboard/portafolio/listarcontactos"><span class="bread-blod">Listado de
+                          Contactos /</span></a>
+                    </li>
+                    <li><span class="bread-blod">Crear</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-inner-all">
+    <!-- Breadcome End-->
+    <div class="admin-dashone-data-table-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="sparkline13-list shadow-reset">
+              <div class="sparkline13-hd">
+                <div class="main-sparkline13-hd">
+                  <h1>
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    Registro <span class="table-project-n">de</span> Contactos</h1>
+                </div>
+              </div>
+              <div class="sparkline10-graph">
+
+                <div class="row">
+                  <div class="col-lg-4" *ngFor="let tipo of codtipocontacto;">
+                    <div class="i-checks pull-left">
+                      <label>
+                        <input type="radio" formControlName="codtipocontacto"
+                        (change)="onChangeTipo($event)"
+                        name="codtipocontacto" [value]="tipo.id">
+                        {{tipo.nombre}}
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <mat-slide-toggle (change)="onChange($event)" formControlName="status">{{Objetoestado}}
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-5">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Tipo Identificacion</label>
+                        <select class="select2_demo_3 form-control" formControlName="codtipoidentificacion"
+                        [ngClass]="{'invalid-data': codtipoidentificacion.invalid && (codtipoidentificacion.touched || codtipoidentificacion.dirty)}"
+                          (change)="MostrarCampos($event.target.value)">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{tipoidentificacion.id}}"
+                            *ngFor="let tipoidentificacion of lstTipoIdentificacion">
+                            {{tipoidentificacion.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codtipoidentificacion.invalid  && (codtipoidentificacion.dirty || codtipoidentificacion.touched)">
+                        <div class="invalid-mensaje" *ngIf="codtipoidentificacion.errors.required">
+                          Tipo Identificacion Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-lg-8">
+                        <div id="pwd-container3">
+                          <div class="form-group">
+                            <label for="username">N° Identificacion</label>
+                            <input (blur)="CalcularDigitoVerficacion($event.target.value)" formControlName="numeroidentificacion"
+                              [ngClass]="{'invalid-data': numeroidentificacion.invalid && (numeroidentificacion.touched || numeroidentificacion.dirty)}"
+                              type="text" class="form-control" placeholder="Ingrese el Número de Identificación" />
+                            <div
+                              *ngIf="numeroidentificacion.invalid  && (numeroidentificacion.dirty || numeroidentificacion.touched)">
+                              <div class="invalid-mensaje" *ngIf="numeroidentificacion.errors.required">
+                                N° Identificacion Requerido
+                              </div>
+                              <div class="invalid-mensaje" *ngIf="numeroidentificacion.errors.pattern">
+                                N° Identificacion Incorrecto
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div id="pwd-container3" *ngIf="visiblecodigodv">
+                          <div class="form-group">
+                            <label for="username">DV</label>
+                            <input formControlName="codigodv" type="number" class="form-control"
+                              placeholder="Ingrese el Número de Identificación" />
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                    <div id="pwd-container3" *ngIf="visible">
+                      <div class="form-group">
+                        <label for="username">Tipo Persona</label>
+                        <select class="select2_demo_3 form-control" formControlName="codtipopersona"
+                        [ngClass]="{'invalid-data': codtipopersona.invalid && (codtipopersona.touched || codtipopersona.dirty)}"
+                          (change)="MostrarCamposTipoPresona($event.target.value)">
+                          <option value="null">--Seleccione--</option>
+                          <option value="{{tipoper.id}}" *ngFor="let tipoper of tipopersona">{{tipoper.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codtipopersona.invalid  && (codtipopersona.dirty || codtipopersona.touched)">
+                        <div class="invalid-mensaje" *ngIf="codtipopersona.errors.required">
+                          Tipo Persona Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container" *ngIf="visibleresponsabilidadtributaria">
+                      <div class="form-group">
+                        <label for="username">Tipo Contribuyente</label>
+                        <select class="select2_demo_3 form-control" formControlName="codtipocontibuyente"
+                        [ngClass]="{'invalid-data': codtipocontibuyente.invalid && (codtipocontibuyente.touched || codtipocontibuyente.dirty)}">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{tipocontribuyente.id}}"
+                            *ngFor="let tipocontribuyente of lstTipoContribuyente">
+                            {{tipocontribuyente.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codtipocontibuyente.invalid  && (codtipocontibuyente.dirty || codtipocontibuyente.touched)">
+                        <div class="invalid-mensaje" *ngIf="codtipocontibuyente.errors.required">
+                          Tipo Contribuyente Requerido
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pwd-container3" *ngIf="visiblenombres">
+                      <div class="form-group">
+                        <label for="username">Primer Nombre</label>
+                        <input formControlName="nombreprimero"
+                          [ngClass]="{'invalid-data': nombreprimero.invalid && (nombreprimero.touched || nombreprimero.dirty)}"
+                          type="text" class="form-control" placeholder="Primer Nombre" />
+                        <div *ngIf="nombreprimero.invalid  && (nombreprimero.dirty || nombreprimero.touched)">
+                          <div class="invalid-mensaje" *ngIf="nombreprimero.errors.pattern">
+                            Nombre Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pwd-container3" *ngIf="visiblenombres">
+                      <div class="form-group">
+                        <label for="username">Segundo Nombre</label>
+                        <input formControlName="nombresegundo"
+                          [ngClass]="{'invalid-data': nombresegundo.invalid && (nombresegundo.touched || nombresegundo.dirty)}"
+                          type="text" class="form-control" placeholder="Segundo Nombre" />
+                        <div *ngIf="nombresegundo.invalid  && (nombresegundo.dirty || nombresegundo.touched)">
+
+                          <div class="invalid-mensaje" *ngIf="nombresegundo.errors.pattern">
+                            Nombre Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                    <div id="pwd-container3" *ngIf="visiblenombres">
+                      <div class="form-group">
+                        <label for="username">Primer Apellido </label>
+                        <input formControlName="apellidoprimero"
+                          [ngClass]="{'invalid-data': apellidoprimero.invalid && (apellidoprimero.touched || apellidoprimero.dirty)}"
+                          type="text" class="form-control" placeholder="Primer Apellido" />
+                        <div *ngIf="apellidoprimero.invalid  && (apellidoprimero.dirty || apellidoprimero.touched)">
+
+                          <div class="invalid-mensaje" *ngIf="apellidoprimero.errors.pattern">
+                            Primer Apellido Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3" *ngIf="visiblenombres">
+                      <div class="form-group">
+                        <label for="username">Segundo Apellido</label>
+                        <input formControlName="apellidosegundo"
+                          [ngClass]="{'invalid-data': apellidosegundo.invalid && (apellidosegundo.touched || apellidosegundo.dirty)}"
+                          type="text" class="form-control" placeholder="Segundo Apellido" />
+                        <div *ngIf="apellidosegundo.invalid  && (apellidosegundo.dirty || apellidosegundo.touched)">
+
+                          <div class="invalid-mensaje" *ngIf="apellidosegundo.errors.pattern">
+                            Segundo Apellido Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3" *ngIf="visiblerazonsocial">
+                      <div class="form-group">
+                        <label for="username">Razon Social</label>
+                        <input formControlName="razonsocial"
+                          [ngClass]="{'invalid-data': razonsocial.invalid && (razonsocial.touched || razonsocial.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Razon Social" />
+                        <div *ngIf="razonsocial.invalid  && (razonsocial.dirty || razonsocial.touched)">
+
+                          <div class="invalid-mensaje" *ngIf="razonsocial.errors.pattern">
+                            Razon Social Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Dirección Factura</label>
+                        <textarea formControlName="direccionfiscal"
+                          [ngClass]="{'invalid-data': direccionfiscal.invalid && (direccionfiscal.touched || direccionfiscal.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Dirección"></textarea>
+                      </div>
+                    </div>
+
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Pais</label>
+                        <select class="select2_demo_3 form-control" formControlName="codpais"
+                        [ngClass]="{'invalid-data': codpais.invalid && (codpais.touched || codpais.dirty)}"
+                          (change)="listarDepartamentos($event.target.value)">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{pais.id}}" *ngFor="let pais of lstPais">
+                            {{pais.nombre}}
+                          </option>
+                        </select>
+                      </div>
+                      <div *ngIf="codpais.invalid  && (codpais.dirty || codpais.touched)">
+                        <div class="invalid-mensaje" *ngIf="codpais.errors.required">
+                          Pais Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3" *ngIf="visibledepartamento">
+                      <div class="form-group">
+                        <label for="username">Departamento</label>
+                        <select class="select2_demo_3 form-control" formControlName="coddepartamento"
+                        [ngClass]="{'invalid-data': coddepartamento.invalid && (coddepartamento.touched || coddepartamento.dirty)}"
+                          (change)="listarMunicipios($event.target.value)">
+                          <option [value]="null">--Seleccione--</option>
+                          <option [value]="departamento.id" *ngFor="let departamento of lstDepartamentos">
+                            {{departamento.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="coddepartamento.invalid  && (coddepartamento.dirty || coddepartamento.touched)">
+                        <div class="invalid-mensaje" *ngIf="coddepartamento.errors.required">
+                          Departamento Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3" *ngIf="visiblemunicipio">
+                      <div class="form-group">
+                        <label for="username">Municipio</label>
+                        <select class="select2_demo_3 form-control" formControlName="codmunicipio"
+                        [ngClass]="{'invalid-data': codmunicipio.invalid && (codmunicipio.touched || codmunicipio.dirty)}">
+                          <option [value]="null">--Seleccione--</option>
+                          <option [value]="municipio.id" *ngFor="let municipio of lstMunicipios">
+                            {{municipio.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codmunicipio.invalid  && (codmunicipio.dirty || codmunicipio.touched)">
+                        <div class="invalid-mensaje" *ngIf="codmunicipio.errors.required">
+                          Municipio Requerido
+                        </div>
+                      </div>
+                    </div>
+
+
+
+                  </div>
+
+                  <div class="col-lg-5">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Teléfono 1</label>
+                        <input formControlName="telefonofijo1"
+                          [ngClass]="{'invalid-data': telefonofijo1.invalid && (telefonofijo1.touched || telefonofijo1.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el Teléfono 1" />
+                        <div *ngIf="telefonofijo1.invalid  && (telefonofijo1.dirty || telefonofijo1.touched)">
+                          <div class="invalid-mensaje" *ngIf="telefonofijo1.errors.pattern">
+                            Telefono 1 Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Teléfono 2</label>
+                        <input formControlName="telefonofijo2"
+                          [ngClass]="{'invalid-data': telefonofijo2.invalid && (telefonofijo2.touched || telefonofijo2.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el Teléfono 2" />
+                        <div *ngIf="telefonofijo2.invalid  && (telefonofijo2.dirty || telefonofijo2.touched)">
+                          <div class="invalid-mensaje" *ngIf="telefonofijo2.errors.pattern">
+                            Telefono 2 Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Celular</label>
+                        <input formControlName="telefonomovil"
+                          [ngClass]="{'invalid-data': telefonomovil.invalid && (telefonomovil.touched || telefonomovil.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el Teléfono Móvil" />
+                        <div *ngIf="telefonomovil.invalid  && (telefonomovil.dirty || telefonomovil.touched)">
+                          <div class="invalid-mensaje" *ngIf="telefonomovil.errors.pattern">
+                            Telefono Movil Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Fax</label>
+                        <input formControlName="telefonofax"
+                          [ngClass]="{'invalid-data': telefonofax.invalid && (telefonofax.touched || telefonofax.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el Teléfono Fax" />
+                        <div *ngIf="telefonofax.invalid  && (telefonofax.dirty || telefonofax.touched)">
+                          <div class="invalid-mensaje" *ngIf="telefonofax.errors.pattern">
+                            Telefono Fax Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Correo Electrónico</label>
+                        <input formControlName="correoe"
+                          [ngClass]="{'invalid-data': correoe.invalid && (correoe.touched || correoe.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el Correo" />
+                        <div *ngIf="correoe.invalid  && (correoe.dirty || correoe.touched)">
+                          <div class="invalid-mensaje" *ngIf="correoe.errors.pattern">
+                            Correo Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Pagina Web</label>
+                        <input formControlName="paginaweb"
+                          [ngClass]="{'invalid-data': paginaweb.invalid && (paginaweb.touched || paginaweb.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Pagina Web" />
+                        <div *ngIf="paginaweb.invalid  && (paginaweb.dirty || paginaweb.touched)">
+
+                          <div class="invalid-mensaje" *ngIf="paginaweb.errors.pattern">
+                            Pagina Web Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Plazo Crédito</label>
+                        <div class="input-group">
+                          <span class="input-group-btn"><button type="button" (click)="onCrearPlazoCredito()"
+                              class="btn btn-primary">+</button></span>
+                          <select class="select2_demo_3 form-control" formControlName="codformapago">
+                            <option [value]="formapago.id" *ngFor="let formapago of lstformaspago">
+                              {{formapago.nombre}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Vendedor</label>
+                        <div class="input-group">
+                          <span class="input-group-btn"><button type="button" class="btn btn-primary">+</button></span>
+                          <select class="select2_demo_3 form-control" formControlName="codvendedor">
+                            <option [value]="vendedor.id" *ngFor="let vendedor of lstVendedores">
+                              {{vendedor.nombre}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Lista Precios</label>
+                        <div class="input-group">
+                          <span class="input-group-btn"><button type="button" class="btn btn-primary">+</button></span>
+                          <select class="select2_demo_3 form-control" formControlName="codlistaprecio">
+                            <option [value]="listaprecio.id" *ngFor="let listaprecio of lstListaprecios">
+                              {{listaprecio.numerolista}}</option>
+                          </select>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <accordion [isAnimated]="true">
+                    <accordion-group heading="Configuracion Contabilidad">
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="chosen-select-single mg-b-20">
+                            <label> Es Declarante de Renta</label>
+                            <select class="select2_demo_3 form-control">
+                              <option>Seleccione</option>
+                              <option value="Bahamas">Si</option>
+                              <option value="Bahamas">No</option>
+
+                            </select>
+                          </div>
+                        </div>
+                          <div class="col-lg-5">
+                          <div class="chosen-select-single mg-b-20">
+                            <label>Es Autorretenedor</label>
+                            <select class="select2_demo_3 form-control">
+                              <option>Seleccione</option>
+                              <option value="Bahamas">Si</option>
+                              <option value="Bahamas">No</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </accordion-group>
+                  </accordion>
+                </div>
+                <div class="row">
+                  <accordion [isAnimated]="true">
+                    <accordion-group heading="Configuracion Factura Electronica">
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="chosen-select-single mg-b-20">
+                            <label>Responsabilidad Fiscal</label>
+                            <select class="select2_demo_3 form-control">
+                              <option>Seleccione</option>
+                              <option value="Bahamas">Responsabilidad Fiscal</option>
+                            </select>
+                          </div>
+
+                          <div class="chosen-select-single mg-b-20">
+                            <label>Tipo de Tributo</label>
+                            <select class="select2_demo_3 form-control">
+                              <option>Seleccione</option>
+                              <option value="Bahamas">Tipo de Tributo</option>
+
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-lg-5">
+
+                          <div class="chosen-select-single mg-b-20">
+                            <label>Actividad Mercantil</label>
+                            <select class="select2_demo_3 form-control">
+                              <option>Seleccione</option>
+                              <option value="Bahamas">Actividad Mercantil</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </accordion-group>
+                  </accordion>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="project-details-tab">
+                      <ul class="nav nav-tabs res-pd-less-sm">
+                        <li class="active"><a data-toggle="tab" href="#home">Datos Básicos</a>
+                        </li>
+                        <li><a data-toggle="tab" href="#menu1">Contactos</a>
+                        </li>
+                        <li><a data-toggle="tab" href="#menu3">Información de Zonas y Rutas</a>
+                        </li>
+
+                      </ul>
+                      <div class="tab-content res-tab-content-project">
+                        <br/>
+                        <div id="home" class="tab-pane fade in active animated zoomInLeft">
+                          <div class="row">
+                            <div class="col-lg-5">
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="username">Cupo</label>
+                                  <input formControlName="limitecreditohasta"
+                                    [ngClass]="{'invalid-data': limitecreditohasta.invalid && (limitecreditohasta.touched || limitecreditohasta.dirty)}"
+                                    type="text" class="form-control" placeholder="Ingrese el cupo" />
+                                  <div
+                                    *ngIf="limitecreditohasta.invalid  && (limitecreditohasta.dirty || limitecreditohasta.touched)">
+                                    <div class="invalid-mensaje" *ngIf="limitecreditohasta.errors.pattern">
+                                      Cupo Incorrecto
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="password3">Fecha Desde</label>
+                                  <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control" bsDatepicker #dp="bsDatepicker"
+                                      formControlName="fechacreditodesde" [bsConfig]="bsConfig">
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="password3">Fecha Hasta</label>
+                                  <div class="input-group date">
+                                    <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                    <input class="form-control" bsDatepicker #dp="bsDatepicker"
+                                      formControlName="fechacreditohasta" [bsConfig]="bsConfig">
+                                  </div>
+                                </div>
+                              </div>
+
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="username">Descuento Condicionado:</label>
+                                  <select class="select2_demo_3 form-control" formControlName="descuentocondicionado">
+                                    <option value="null">--Seleccione--</option>
+                                    <option value="Si">Si</option>
+                                    <option value="No">No</option>
+                                  </select>
+                                </div>
+                              </div>
+                            </div>
+
+                            <div class="col-lg-5">
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="username">Lugar de Envio</label>
+                                  <input formControlName="lugarenvio"
+                                    [ngClass]="{'invalid-data': lugarenvio.invalid && (lugarenvio.touched || lugarenvio.dirty)}"
+                                    type="text" class="form-control" placeholder="Ingrese el lugar de envio" />
+                                  <div *ngIf="lugarenvio.invalid  && (lugarenvio.dirty || lugarenvio.touched)">
+                                    <div class="invalid-mensaje" *ngIf="razonsocial.errors.pattern">
+                                      Lugar de Envio Incorrecto
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="username">Dirección Exogena</label>
+                                  <textarea formControlName="direccionexogena"
+                                    [ngClass]="{'invalid-data': direccionexogena.invalid && (direccionexogena.touched || direccionexogena.dirty)}"
+                                    type="text" class="form-control" placeholder="Ingrese la Dirección"></textarea>
+                                </div>
+                              </div>
+                              <div id="pwd-container3">
+                                <div class="form-group">
+                                  <label for="username">Observaciones</label>
+                                  <textarea formControlName="observaciones"
+                                    [ngClass]="{'invalid-data': observaciones.invalid && (observaciones.touched || observaciones.dirty)}"
+                                    type="text" class="form-control" placeholder="Ingrese las Observaciones"></textarea>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <!-- TERMINA PESTAÑA HOME -->
+                        <div id="menu1" class="tab-pane fade animated zoomInLeft">
+
+                        </div>
+
+
+                        <div id="menu3" class="tab-pane fade animated zoomInLeft">
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="sparkline8-list basic-res-b-30 shadow-reset">
+              <div class="sparkline8-hd">
+                <div class="main-sparkline8-hd">
+                  <h1><i class="fa fa-eye" aria-hidden="true"></i>
+                    Imagen <span class="table-project-n"></span></h1>
+                  <div class="sparkline8-outline-icon"></div>
+                </div>
+              </div>
+              <div class="sparkline8-graph project-details-price-hd">
+                <div class="project-details-files">
+                  <div class="view-mail-file-list">
+                    <div class="view-file-in">
+                      <i class="fa fa-file"></i>
+                    </div>
+                    <div class="file-type-view">
+                      <h5><a href="#">Document-file.jpg</a></h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="sparkline8-list shadow-reset mg-t-30">
+              <div class="sparkline8-hd">
+                <div class="main-spark7-hd">
+                  <h1><i class="fa big-icon fa-bar-chart-o"></i>
+                    Estadistica <span class="table-project-n"></span></h1>
+                  <div class="sparkline8-outline-icon"></div>
+                </div>
+              </div>
+              <div class="sparkline8-graph project-details-price-hd">
+                <div class="project-details-files">
+                  <div class="view-mail-file-list">
+                    <div class="view-file-in">
+                    </div>
+                    <div class="file-type-view">
+                      <h5><a href="#">Ventas y Compras</a></h5>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+</form>

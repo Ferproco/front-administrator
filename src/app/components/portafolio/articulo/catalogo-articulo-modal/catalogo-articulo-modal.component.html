@@ -1,0 +1,91 @@
+<div class="modal-content">
+    <div class="modal-header header-color-modal bg-color-3">
+      <h2>Listado de Items</h2>
+      <div class="modal-close-area modal-close-df">
+        <a class="close" data-dismiss="modal" (click)="onCancel()"><i class="fa fa-close"></i></a>
+      </div>
+    </div>
+    <div class="modal-body">
+      <table class="table" mat-table [dataSource]="dataSource" matSort>
+        <!-- Position Column -->
+        <ng-container matColumnDef="Codigo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>
+              CODIGO
+            </th>
+            <td mat-cell *matCellDef="let element"> {{element.codigo}} </td>
+          </ng-container>
+  
+        <!-- Name Column -->
+        <ng-container matColumnDef="Nombre">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
+            <td mat-cell *matCellDef="let element"> {{element.nomarticulo}} </td>
+          </ng-container>
+  
+        <!-- Weight Column -->
+        <ng-container matColumnDef="Categoria">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> CATEGORIA </th>
+            <td mat-cell *matCellDef="let element"> {{element.familia.nomfamilia}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Precio">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> PRECIO VENTA </th>
+            <td mat-cell *matCellDef="let element"> {{element.preciosugerido}} </td>
+          </ng-container>
+  
+          <ng-container matColumnDef="Und Medida">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> UND MEDIDA </th>
+            <td mat-cell *matCellDef="let element"> {{element.unidadmedida.nomunidadmedida}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="Impuesto">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> IMPUESTO </th>
+            <td mat-cell *matCellDef="let element"> {{element.impuesto.nombreimpuesto}} </td>
+          </ng-container>
+  
+        <ng-container matColumnDef="Status">
+          <th mat-header-cell *matHeaderCellDef> ESTATUS </th>
+          <td mat-cell *matCellDef="let element">
+            <div *ngIf="element.status === 'ACTIVO'; else inactivo" class="btn-group project-list-add">
+              <button class="btn btn-white btn-xs">Activo </button>
+            </div>
+            <ng-template #inactivo>
+              <div class="btn-group project-list-ad-rd">
+                <button class="btn btn-white btn-xs">Inactivo</button>
+              </div>
+            </ng-template>
+          </td>
+        </ng-container>
+  
+       
+        <ng-container matColumnDef="Accion">
+          <th mat-header-cell *matHeaderCellDef> ACCION </th>
+          <td mat-cell *matCellDef="let element" class="datatable-ct">
+            <div class="btn-group project-list-add">
+              <button (click)="Seleccionar(element.id)"  class="btn btn-white btn-xs"><i class="fa fa-eye"
+                  aria-hidden="true"></i> </button>
+            </div>
+          </td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  
+        <tr class="mat-row" *matNoDataRow>
+          <td class="mat-cell" colspan="8">No hay resultados para busqueda</td>
+        </tr>
+      </table>
+      <div class="mat-paginator-container">
+        <mat-paginator [length]="LengthTable" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+  
+  
+  
+    </div>
+    <div class="modal-footer">
+      <a (click)="onCancel()">Cancelar</a>
+  
+    </div>
+  </div>
+  

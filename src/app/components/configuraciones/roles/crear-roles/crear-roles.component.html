@@ -1,0 +1,139 @@
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="formrol" (ngSubmit)="guardarRol($event)">
+
+  <div class="content-inner-all">
+    <!-- Breadcome start-->
+    <div class="breadcome-area mg-b-30 small-dn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcome-list shadow-reset">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="breadcome-heading">
+                    <button type="submit" (mouseover)="cargarRequeridos($event)" matTooltip="{{camposrequeridos}}"
+                      class="form-control"><i class="fa fa-save" aria-hidden="true"></i> Guardar
+                    </button>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="breadcome-menu">
+                    <li>
+                      <a routerLink="/main/dashboard">Inicio</a>
+                      <span class="bread-slash">/ Configuración /</span>
+                    </li>
+                    <li>
+                      <a routerLink="/main/dashboard/configuraciones/listarroles"><span class="bread-blod">Listado de
+                          Roles /</span></a>
+                    </li>
+                    <li><span class="bread-blod">Crear</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Static Table Start -->
+
+  <!-- Static Table Start -->
+  <div class="content-inner-all">
+    <div class="admin-dashone-data-table-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="sparkline13-list shadow-reset">
+              <div class="sparkline13-hd">
+                <div class="main-sparkline13-hd">
+                  <h1>
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    Registro <span class="table-project-n">de</span> Rol
+                  </h1>
+                </div>
+              </div>
+              <div class="sparkline10-graph">
+                <div class="row">
+                  <div class="col-lg-4">
+
+                  </div>
+                  <div class="col-lg-2">
+                    <mat-slide-toggle (change)="onChange($event)" formControlName="activo">Activo
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Nombre Completo*</label>
+                        <input formControlName="nombre"
+                          [ngClass]="{'invalid-data': nombre.invalid && (nombre.touched || nombre.dirty)}" type="text"
+                          class="form-control" placeholder="Ingrese el  Nombre del Rol" />
+                          <div *ngIf="nombre.invalid  && (nombre.dirty || nombre.touched)">
+                            <div class="invalid-mensaje" *ngIf="nombre.errors.required">
+                              Nombre Requerido
+                            </div>
+                            <div class="invalid-mensaje" *ngIf="nombre.errors.pattern">
+                              Nombre Incorrecto
+                            </div>
+                          </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Descripcion</label>
+                        <textarea formControlName="descripcion"
+                          [ngClass]="{'invalid-data': descripcion.invalid && (descripcion.touched || descripcion.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Descripción"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Creado el</label>
+                        <div class="input-group date">
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                          <input class="form-control" disabled bsDatepicker #dp="bsDatepicker"
+                            formControlName="creadoel" [bsConfig]="bsConfig">
+                        </div>
+                      </div>
+                    </div>
+                    </div>
+                    <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Actualizado el</label>
+                        <div class="input-group date">
+                          <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                          <input class="form-control" disabled bsDatepicker #dp="bsDatepicker"
+                            formControlName="actualizadoel" [bsConfig]="bsConfig">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+</form>

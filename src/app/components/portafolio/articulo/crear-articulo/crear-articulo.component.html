@@ -1,0 +1,931 @@
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="formarticulo" (ngSubmit)="guardarArticulo($event)">
+
+  <div class="content-inner-all">
+    <!-- Breadcome start-->
+    <div class="breadcome-area mg-b-30 small-dn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcome-list shadow-reset">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="breadcome-heading">
+                    <button type="submit" (mouseover)="cargarRequeridos($event)" matTooltip="{{camposrequeridos}}"
+                      class="form-control"><i class="fa fa-save" aria-hidden="true"></i> Guardar
+                    </button>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="breadcome-menu">
+                    <li>
+                      <a routerLink="/main/dashboard">Inicio</a>
+                      <span class="bread-slash">/ Inventario /</span>
+                    </li>
+                    <li>
+                      <a routerLink="/main/dashboard/portafolio/listararticulos"><span class="bread-blod">Listado de
+                          Items /</span></a>
+                    </li>
+                    <li><span class="bread-blod">Crear</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Static Table Start -->
+
+  <!-- Static Table Start -->
+  <div class="content-inner-all">
+    <div class="admin-dashone-data-table-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="sparkline13-list shadow-reset">
+              <div class="sparkline13-hd">
+                <div class="main-sparkline13-hd">
+                  <h1>
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    Registro <span class="table-project-n">de</span> Items
+                  </h1>
+                </div>
+              </div>
+
+              <div class="sparkline10-graph">
+                <div class="row">
+                  <div class="col-lg-2" *ngFor="let tipo of codtipoproducto;">
+                    <div class="i-checks pull-left">
+                      <label>
+                        <input type="radio" formControlName="codtipoproducto" (change)="onChangeTipo($event)"
+                          name="codtipoproducto" [value]="tipo.id">
+                        {{tipo.nombre}}
+                      </label>
+                    </div>
+                    <div *ngIf="codtipoproducto.invalid  && (codtipoproducto.dirty || codtipoproducto.touched)">
+                      <div class="invalid-mensaje" *ngIf="codtipoproducto.errors.required">
+                       Unidad Medida Requerido
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-4">
+                    <mat-slide-toggle (change)="onChange($event)" formControlName="status">{{Objetoestado}}
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-lg-5">
+
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Codigo*</label>
+                        <input formControlName="codigo"
+                          [ngClass]="{'invalid-data': codigo.invalid && (codigo.touched || codigo.dirty)}" type="text"
+                          class="form-control" placeholder="Ingrese el Codigo" />
+                        <div *ngIf="codigo.invalid  && (codigo.dirty || codigo.touched)">
+                          <div class="invalid-mensaje" *ngIf="codigo.errors.required">
+                            Codigo Requerido
+                          </div>
+                          <div class="invalid-mensaje" *ngIf="codigo.errors.pattern">
+                            Codigo Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Nombre*</label>
+                        <input formControlName="nomarticulo"
+                          [ngClass]="{'invalid-data': nomarticulo.invalid && (nomarticulo.touched || nomarticulo.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el  Nombre del Articulo" />
+                        <div *ngIf="nomarticulo.invalid  && (nomarticulo.dirty || nomarticulo.touched)">
+                          <div class="invalid-mensaje" *ngIf="nomarticulo.errors.required">
+                            Nombre Requerido
+                          </div>
+                          <div class="invalid-mensaje" *ngIf="nomarticulo.errors.pattern">
+                            Nombre Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pwd-container3">
+
+                      <label for="username">Categoria*</label>
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button type="button" (click)="onCrearCategoria()" class="btn btn-primary">+</button></span>
+                        <select class="select2_demo_3 form-control" formControlName="codfamilia"
+                          [ngClass]="{'invalid-data': codfamilia.invalid && (codfamilia.touched || codfamilia.dirty)}">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{familias.codfamilia}}" *ngFor="let familias of lstFamilias">
+                            {{familias.nomfamilia}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codfamilia.invalid  && (codfamilia.dirty || codfamilia.touched)">
+                        <div class="invalid-mensaje" *ngIf="codfamilia.errors.required">
+                          Categoria Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div id="pwd-container3">
+                      <label for="username">Precio Venta</label>
+                      <input currencyMask formControlName="preciosugerido"
+                        [ngClass]="{'invalid-data': preciosugerido.invalid && (preciosugerido.touched || preciosugerido.dirty)}"
+                        type="text" class="form-control" placeholder="Ingrese el Precio de Venta" />
+                      <div *ngIf="preciosugerido.invalid  && (preciosugerido.dirty || preciosugerido.touched)">
+                        <div class="invalid-mensaje" *ngIf="preciosugerido.errors.pattern">
+                          Precio Incorrecto
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div id="pwd-container3">
+                      <label for="username">Impuesto*</label>
+                      <div class="input-group">
+                        <span class="input-group-btn"><button type="button" (click)="onCrearImpuesto()"
+                            class="btn btn-primary">+</button></span>
+                        <select class="select2_demo_3 form-control" formControlName="codimpuesto"
+                          [ngClass]="{'invalid-data': codimpuesto.invalid && (codimpuesto.touched || codimpuesto.dirty)}"
+                          (change)="CalcularPrecioVenta($event.target.value)">
+                          <option value="null">--Seleccione--</option>
+                          <option value="{{impuesto.idimpuesto}}" *ngFor="let impuesto of lstImpuestos">
+                            {{impuesto.tipoimpuesto}} {{impuesto.normal}}%</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codimpuesto.invalid  && (codimpuesto.dirty || codimpuesto.touched)">
+                        <div class="invalid-mensaje" *ngIf="codimpuesto.errors.required">
+                          Impuesto Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <br />
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Clasificación IVA*</label>
+                        <select class="select2_demo_3 form-control" formControlName="tipoiva"
+                          [ngClass]="{'invalid-data': tipoiva.invalid && (tipoiva.touched || tipoiva.dirty)}">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{tipo.id}}" *ngFor="let tipo of tipoivalis">
+                            {{tipo.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="tipoiva.invalid  && (tipoiva.dirty || tipoiva.touched)">
+                        <div class="invalid-mensaje" *ngIf="tipoiva.errors.required">
+                          Clasificación IVA Requerido
+                        </div>
+                      </div>
+                    </div>
+
+                    <div id="pwd-container3">
+                      <label for="username">Unidad Medida</label>
+                      <div class="input-group">
+                        <span class="input-group-btn">
+                          <button type="button" (click)="onCrearUnidad()" class="btn btn-primary">+</button>
+                        </span>
+                        <select class="select2_demo_3 form-control" formControlName="codunidadmedida"
+                          [ngClass]="{'invalid-data': codunidadmedida.invalid && (codunidadmedida.touched || codunidadmedida.dirty)}"
+                          (change)="onChangeUnidadPrincipal($event.target.value)">
+                          <option value="null">--Seleccione--</option>
+                          <option value="{{unidad.id}}" *ngFor="let unidad of lstUnidades">
+                            {{unidad.nomunidadmedida}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="codunidadmedida.invalid  && (codunidadmedida.dirty || codunidadmedida.touched)">
+                        <div class="invalid-mensaje" *ngIf="codunidadmedida.errors.required">
+                         Unidad Medida Requerido
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                  <div class="col-lg-5">
+                    <div id="pwd-container3">
+                      <label for="username">IVA Incluido</label>
+                      <div class="form-group">
+                        <select class="select2_demo_3 form-control" formControlName="ivaincluido"
+                          [ngClass]="{'invalid-data': ivaincluido.invalid && (ivaincluido.touched || ivaincluido.dirty)}"
+                          (change)="CalcularPrecioVenta($event.target.value)">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{ivainc.id}}" *ngFor="let ivainc of ivaincluidolist">
+                            {{ivainc.nombre}}</option>
+                        </select>
+                      </div>
+                      <div *ngIf="ivaincluido.invalid  && (ivaincluido.dirty || ivaincluido.touched)">
+                        <div class="invalid-mensaje" *ngIf="ivaincluido.errors.required">
+                          Iva Incluido Requerido
+                        </div>
+                      </div>
+                    </div>
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Es Impoconsumo</label>
+                        <select class="select2_demo_3 form-control" formControlName="esimpoconsumo"
+                          (change)="Esimpoconsumo($event.target.value)">
+                          <!--<option [value]="null">--Seleccione--</option>-->
+                          <option value="{{esimpoc.id}}" *ngFor="let esimpoc of esimpoconsumo">
+                            {{esimpoc.nombre}}</option>
+                        </select>
+                      </div>
+                      <div id="pwd-container3">
+                        <div class="form-group">
+                          <label for="username">Valor Impoconsumo</label>
+                          <input formControlName="valorimpoconsumo"
+                            [ngClass]="{'invalid-data': valorimpoconsumo.invalid && (valorimpoconsumo.touched || valorimpoconsumo.dirty)}"
+                            type="text" class="form-control" placeholder="Ingrese el valor de Impoconsumo " />
+                          <div
+                            *ngIf="valorimpoconsumo.invalid  && (valorimpoconsumo.dirty || valorimpoconsumo.touched)">
+                            <div class="invalid-mensaje" *ngIf="valorimpoconsumo.errors.pattern">
+                              Valor Impoconsumo Incorrecto
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="pwd-container3">
+                        <div class="form-group">
+                          <label for="username">% Impoconsumo</label>
+                          <input formControlName="porcentajeimpoconsumo"
+                            [ngClass]="{'invalid-data': porcentajeimpoconsumo.invalid && (porcentajeimpoconsumo.touched || porcentajeimpoconsumo.dirty)}"
+                            type="text" class="form-control" placeholder="Ingrese el porcentaje de Impoconsumo " />
+                          <div
+                            *ngIf="porcentajeimpoconsumo.invalid  && (porcentajeimpoconsumo.dirty || porcentajeimpoconsumo.touched)">
+                            <div class="invalid-mensaje" *ngIf="porcentajeimpoconsumo.errors.pattern">
+                              Porcentaje Impoconsumo Incorrecto
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div id="pwd-container3">
+                        <div class="form-group">
+                          <label for="username">Descripción Larga</label>
+                          <textarea formControlName="descripcionlarga"
+                            [ngClass]="{'invalid-data': descripcionlarga.invalid && (descripcionlarga.touched || descripcionlarga.dirty)}"
+                            type="text" class="form-control" placeholder="Ingrese la Descripción Larga"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div id="pwd-container3" *ngIf="visiblecantidadminima">
+                      <div class="form-group">
+                        <label for="username">Cantidad Minima</label>
+                        <input formControlName="stockminimo"
+                          [ngClass]="{'invalid-data': stockminimo.invalid && (stockminimo.touched || stockminimo.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Cantidad Minima " />
+                        <div *ngIf="stockminimo.invalid  && (stockminimo.dirty || stockminimo.touched)">
+                          <div class="invalid-mensaje" *ngIf="stockminimo.errors.pattern">
+                            Cantidad Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-lg-3">
+                    <div id="pwd-container3" *ngIf="visiblecantidadmaxima">
+                      <div class="form-group">
+                        <label for="username">Cantidad Maxima</label>
+                        <input formControlName="stockmaximo"
+                          [ngClass]="{'invalid-data': stockmaximo.invalid && (stockmaximo.touched || stockmaximo.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Cantidad Maxima" />
+                        <div *ngIf="stockmaximo.invalid  && (stockmaximo.dirty || stockmaximo.touched)">
+                          <div class="invalid-mensaje" *ngIf="stockmaximo.errors.pattern">
+                            Cantidad Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div class="col-lg-3">
+                    <div id="pwd-container3" *ngIf="visiblepuntoreorden">
+                      <div class="form-group">
+                        <label for="username">Punto de reorden</label>
+                        <input formControlName="cantidadreorden"
+                          [ngClass]="{'invalid-data': cantidadreorden.invalid && (cantidadreorden.touched || cantidadreorden.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese el punto de Reorden" />
+                        <div *ngIf="cantidadreorden.invalid  && (cantidadreorden.dirty || cantidadreorden.touched)">
+                          <div class="invalid-mensaje" *ngIf="cantidadreorden.errors.pattern">
+                            Punto Reorden Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
+                <br>
+
+                <div class="row" *ngIf="visiblecantidadminima">
+                  <accordion [isAnimated]="false">
+                    <accordion-group heading="Empaques y Conversión de Unidades">
+                      <div class="row">
+                        <div class="project-details-area mg-b-15">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="project-details-wrap shadow-reset">
+                                  <div class="row">
+                                    <div class="col-lg-12">
+                                      <div class="sparkline10-graph">
+                                        <div class="static-table-list">
+
+                                          <table class="table border-table">
+                                            <thead>
+                                              <tr>
+                                                <th>Unidad Medida</th>
+                                                <th>Cantidad X </th>
+                                                <th>Unidad Medida Principal</th>
+                                                <th></th>
+                                              </tr>
+                                            </thead>
+                                            <tbody formArrayName="lstunidadesalternas">
+                                              <tr
+                                                *ngFor="let lstunidadesalternas of ListItemsUnidasesAlternas.controls; let i = index"
+                                                [formGroup]="ListItemsUnidasesAlternas.controls[i]">
+                                                <td>
+                                                  <select class="select2_demo_3 form-control"
+                                                    formControlName="codunidadmedidaalterna">
+                                                    <option value="null">--Seleccione--</option>
+                                                    <option value="{{unidad.id}}" *ngFor="let unidad of lstUnidades">
+                                                      {{unidad.nomunidadmedida}}</option>
+                                                  </select>
+                                                </td>
+                                                <td>
+                                                  <input type="number" class="form-control"
+                                                    formControlName="valorconversion" style="width:70px" />
+                                                </td>
+                                                <td>
+                                                  <select class="select2_demo_3 form-control"
+                                                    formControlName="codunidadminima">
+                                                    <option value="null">--Seleccione--</option>
+                                                    <option value="{{unidad.id}}" *ngFor="let unidad of lstUnidades">
+                                                      {{unidad.nomunidadmedida}}</option>
+                                                  </select>
+
+                                                </td>
+                                                <td>
+                                                  <div class="btn-group project-list-add">
+                                                    <button type="button" (click)="removeItemUnidadesAlternas(i)"
+                                                      class="btn btn-white btn-xs"> <i class="fa fa-trash-o"
+                                                        aria-hidden="true"></i></button>
+                                                  </div>
+                                                </td>
+                                              </tr>
+
+                                            </tbody>
+                                          </table>
+                                          <button type="button" class="btn btn-custon-four btn-primary"
+                                            (click)="addItemUnidadesAlternas()">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                            Agregar Otra Unidad</button>
+
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </accordion-group>
+                  </accordion>
+                </div>
+
+                <div class="row" *ngIf="visiblecantidadminima">
+                  <accordion [isAnimated]="false">
+                    <accordion-group heading="Ingresar Inventario">
+                      <div class="row">
+                        <div class="project-details-area mg-b-15">
+                          <div class="container-fluid">
+                            <div class="row">
+                              <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                                <div class="project-details-wrap shadow-reset">
+                                  <div class="row">
+                                    <div class="col-lg-12">
+                                      <div class="sparkline10-graph">
+                                        <div class="static-table-list">
+
+                                          <table class="table border-table">
+                                            <thead>
+                                              <tr>
+                                                <th>Unidad Medida</th>
+                                                <th>Cantidad</th>
+                                                <th>Bodega</th>
+                                                <th>Costo X Unidad</th>
+                                                <th></th>
+                                              </tr>
+                                            </thead>
+                                            <tbody formArrayName="lstmovimientoskardex">
+                                              <tr *ngFor="let lstmovimientoskardex of ListItems.controls; let i = index"
+                                                [formGroup]="ListItems.controls[i]">
+                                                <td>
+                                                  <select class="select2_demo_3 form-control"
+                                                    formControlName="codunidadmedida">
+                                                    <option value="null">--Seleccione--</option>
+                                                    <option value="{{unidad.id}}" *ngFor="let unidad of lstUnidades">
+                                                      {{unidad.nomunidadmedida}}</option>
+                                                  </select>
+                                                </td>
+                                                <td>
+                                                  <input type="number" class="form-control" formControlName="cantidad"
+                                                    style="width:70px" />
+                                                </td>
+                                                <td>
+                                                  <div class="input-group">
+                                                    <span class="input-group-btn">
+                                                      <button type="button" (click)="onCrearBodega()"
+                                                        class="btn btn-primary">+</button>
+                                                    </span>
+                                                    <select class="select2_demo_3 form-control"
+                                                      formControlName="codalmacen">
+
+                                                      <option value="0">--Seleccione--</option>
+                                                      <option value="{{almacen.idalmacen}}"
+                                                        *ngFor="let almacen of lstAlmacenes">
+                                                        {{almacen.nombre}}</option>
+                                                    </select>
+                                                  </div>
+                                                </td>
+
+                                                <td>
+                                                  <input type="number" class="form-control"
+                                                    formControlName="montoxunidad" style="width:130px" />
+                                                </td>
+                                                <td>
+                                                  <div class="btn-group project-list-add">
+                                                    <button type="button" (click)="removeItemListaKardex(i)"
+                                                      class="btn btn-white btn-xs"> <i class="fa fa-trash-o"
+                                                        aria-hidden="true"></i></button>
+                                                  </div>
+                                                </td>
+                                              </tr>
+
+                                            </tbody>
+                                          </table>
+                                          <button type="button" class="btn btn-custon-four btn-primary"
+                                            (click)="addItem()">
+                                            <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                                            Agregar en otra Bodega</button>
+
+                                        </div>
+                                      </div>
+
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </accordion-group>
+                  </accordion>
+                </div>
+
+                <div class="row">
+                  <accordion [isAnimated]="false">
+                    <accordion-group heading="Configuracion Contabilidad">
+                      <div class="row">
+                        <div class="col-lg-5">
+                          <div class="chosen-select-single mg-b-20">
+                            <label> Concepto Contable</label>
+                            <select class="select2_demo_3 form-control">
+                              <option>Seleccione</option>
+                              <option value="Bahamas">Si</option>
+                              <option value="Bahamas">No</option>
+
+                            </select>
+                          </div>
+                        </div>
+
+                      </div>
+                    </accordion-group>
+                  </accordion>
+                </div>
+
+
+                <div class="row">
+
+                  <div class="row">
+
+                    <div class="col-lg-12">
+                      <div class="project-details-tab">
+                        <ul class="nav nav-tabs res-pd-less-sm">
+                          <li class="active"><a data-toggle="tab" href="#home">Datos Básicos</a>
+                          </li>
+                          <li><a data-toggle="tab" href="#menu1">Empaque</a>
+                          </li>
+                          <li><a data-toggle="tab" href="#menu2">Documentos de Compra</a>
+                          </li>
+                          <li><a data-toggle="tab" href="#menu3">Documentos de Venta</a>
+                          </li>
+                          <li><a data-toggle="tab" href="#menu4">Movimientos de Almacén</a>
+                          </li>
+                          <li><a data-toggle="tab" href="#menu5">Contabilidad</a>
+                          </li>
+                        </ul>
+                        <div class="tab-content res-tab-content-project">
+                          <div id="home" class="tab-pane fade in active animated zoomInLeft">
+                            <br>
+                            <div class="row">
+                              <div class="col-lg-5">
+
+                                <div id="pwd-container3" *ngIf="visiblereferencia">
+                                  <div class="form-group">
+                                    <label for="username">Referencia</label>
+                                    <input formControlName="referencia"
+                                      [ngClass]="{'invalid-data': referencia.invalid && (referencia.touched || referencia.dirty)}"
+                                      type="text" class="form-control"
+                                      placeholder="Ingrese la referencia del Articulo" />
+                                    <div *ngIf="referencia.invalid  && (referencia.dirty || referencia.touched)">
+                                      <div class="invalid-mensaje" *ngIf="referencia.errors.pattern">
+                                        Referencia Incorrecto
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div id="pwd-container3" *ngIf="visibleserial">
+                                  <div class="form-group">
+                                    <label for="username">Serial</label>
+                                    <input formControlName="serial"
+                                      [ngClass]="{'invalid-data': serial.invalid && (serial.touched || serial.dirty)}"
+                                      type="text" class="form-control" placeholder="Ingrese el Serial del Articulo" />
+                                    <div *ngIf="serial.invalid  && (serial.dirty || serial.touched)">
+                                      <div class="invalid-mensaje" *ngIf="referencia.errors.pattern">
+                                        Serial Incorrecto
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div id="pwd-container3" *ngIf="visiblecodigobarra">
+                                  <div class="form-group">
+                                    <label for="username">Codigo de Barra</label>
+                                    <input formControlName="codigobarraprincipal"
+                                      [ngClass]="{'invalid-data': codigobarraprincipal.invalid && (codigobarraprincipal.touched || codigobarraprincipal.dirty)}"
+                                      type="text" class="form-control"
+                                      placeholder="Ingrese el Codigo de Barra del Articulo" />
+                                    <div
+                                      *ngIf="codigobarraprincipal.invalid  && (codigobarraprincipal.dirty || codigobarraprincipal.touched)">
+                                      <div class="invalid-mensaje" *ngIf="codigobarraprincipal.errors.pattern">
+                                        Codigo de Barra Incorrecto
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+
+                                <div id="pwd-container3" *ngIf="visiblemarca">
+                                  <label for="username">Marca</label>
+                                  <div class="input-group">
+                                    <span class="input-group-btn">
+                                      <button type="button" (click)="onCrearMarca()" class="btn btn-primary">+</button>
+                                    </span>
+                                    <select class="select2_demo_3 form-control" formControlName="codmarca">
+                                      <option value="null">--Seleccione--</option>
+                                      <option value="{{marca.id}}" *ngFor="let marca of lstMarcas">
+                                        {{marca.nommarca}}</option>
+                                    </select>
+                                  </div>
+                                </div>
+
+
+
+                              </div>
+                              <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                                <br>
+                                <div id="pwd-container3" *ngIf="visiblepeso">
+                                  <div class="form-group">
+                                    <label for="username">Peso:</label>
+                                    <input formControlName="peso"
+                                      [ngClass]="{'invalid-data': peso.invalid && (peso.touched || peso.dirty)}"
+                                      type="text" class="form-control" placeholder="Ingrese el Peso" />
+                                    <div *ngIf="peso.invalid  && (peso.dirty || peso.touched)">
+                                      <div class="invalid-mensaje" *ngIf="peso.errors.pattern">
+                                        Peso Incorrecto
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                                <div id="pwd-container3" *ngIf="visibletalla">
+                                  <div class="form-group">
+                                    <label for="username">Talla:</label>
+                                    <input formControlName="talla"
+                                      [ngClass]="{'invalid-data': talla.invalid && (talla.touched || talla.dirty)}"
+                                      type="text" class="form-control" placeholder="Ingrese la Talla" />
+                                    <div *ngIf="talla.invalid  && (talla.dirty || talla.touched)">
+                                      <div class="invalid-mensaje" *ngIf="talla.errors.pattern">
+                                        Peso Incorrecto
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                                <div id="pwd-container3" *ngIf="visiblecolor">
+                                  <div class="form-group">
+                                    <label for="username">Color</label>
+
+                                    <input formControlName="color"
+                                      [ngClass]="{'invalid-data': color.invalid && (color.touched || color.dirty)}"
+                                      type="text" class="form-control" placeholder="Ingrese el Color" />
+                                    <div *ngIf="color.invalid  && (color.dirty || color.touched)">
+                                      <div class="invalid-mensaje" *ngIf="color.errors.pattern">
+                                        Codigo de Barra Incorrecto
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <!-- TERMINA PESTAÑA HOME -->
+                          <div id="menu1" class="tab-pane fade animated zoomInLeft">
+                            <div class="row">
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="project-details-mg">
+                                  <div class="static-table-list">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th></th>
+                                          <th>Unidad</th>
+                                          <th>Cantidad</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div class="i-checks pull-left">
+                                              <label>
+                                                <input type="checkbox" value="" checked=""> <i></i> </label>
+                                            </div>
+                                          </td>
+                                          <td>Caja</td>
+                                          <td>
+
+                                          </td>
+
+
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="menu2" class="tab-pane fade animated zoomInLeft">
+                            <div class="row">
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="project-details-mg">
+                                  <div class="static-table-list">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th></th>
+                                          <th>Fecha</th>
+                                          <th>Proveedor</th>
+                                          <th>Cant. Comprada</th>
+                                          <th>Precio</th>
+                                          <th>Total</th>
+                                          <th>Status</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div class="i-checks pull-left">
+                                              <label>
+                                                <input type="checkbox" value="" checked=""> <i></i> </label>
+                                            </div>
+                                          </td>
+                                          <td></td>
+                                          <td>
+
+                                          </td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div id="menu3" class="tab-pane fade animated zoomInLeft">
+                            <div class="row">
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="project-details-mg">
+                                  <div class="static-table-list">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+
+                                          <th>Fecha</th>
+                                          <th>Movimiento</th>
+                                          <th>Entrada</th>
+                                          <th>Salida</th>
+                                          <th>Precio/Costo</th>
+                                          <th>Total</th>
+                                          <th>Numero Documento</th>
+                                          <th>Cliente/Proveedor</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div id="menu4" class="tab-pane fade animated zoomInLeft">
+                            <div class="row">
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <div class="project-details-mg">
+                                  <div class="static-table-list">
+                                    <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th></th>
+                                          <th>Fecha</th>
+                                          <th>Proveedor</th>
+                                          <th>Cant. Comprada</th>
+                                          <th>Precio</th>
+                                          <th>Total</th>
+                                          <th>Status</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div class="i-checks pull-left">
+                                              <label>
+                                                <input type="checkbox" value="" checked=""> <i></i> </label>
+                                            </div>
+                                          </td>
+                                          <td></td>
+                                          <td>
+
+                                          </td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                          <td></td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div id="menu5" class="tab-pane fade animated zoomInLeft">
+                            <div class="row">
+                              <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                <br>
+                                <div class="project-details-mg">
+                                  <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                                      <div class="col-lg-4">
+                                        <span><strong>Cuenta Contable:</strong></span>
+                                      </div>
+                                    </div>
+                                    <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                                      <div class="input-knob-dial-wrap">
+                                        <div class="row">
+                                          <div class="col-lg-12">
+                                            <div class="chosen-select-single mg-b-20">
+                                              <select class="select2_demo_3 form-control">
+                                                <option>--Seleccione--</option>
+                                                <option value="Bahamas">Ventas</option>
+                                                <option value="Bahamas">Devolución en Ventas</option>
+                                                <option value="Bahamas">Otros Ingresos</option>
+                                                <option value="Bahamas">Ingresos Financieros</option>
+                                                <option value="Bahamas">Otros Ingresos Diversos</option>
+                                              </select>
+                                            </div>
+
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+          <div class="col-lg-3">
+            <div class="sparkline8-list basic-res-b-30 shadow-reset">
+              <div class="sparkline8-hd">
+                <div class="main-sparkline8-hd">
+                  <h1><i class="fa fa-eye" aria-hidden="true"></i>
+                    Imagen <span class="table-project-n"></span></h1>
+                  <div class="sparkline8-outline-icon"></div>
+                </div>
+              </div>
+              <div class="sparkline8-graph project-details-price-hd">
+                <div class="project-details-files">
+                  <div class="view-mail-file-list">
+                    <div class="view-file-in">
+                      <i class="fa fa-file"></i>
+                    </div>
+                    <div class="file-type-view">
+                      <h5><a href="#">Document-file.jpg</a></h5>
+
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <br>
+
+            <div class="income-dashone-total income-monthly shadow-reset nt-mg-b-30 res-mg-t-30">
+              <div class="income-title">
+                <div class="main-income-head">
+                  <h4></h4>
+                  <div class="main-income-phara">
+                    <p>Precio Sugerido</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="income-dashone-pro">
+                <div class="income-rate-total">
+                  <div class="price-adminpro-rate">
+                    <h3><span>Precio Sin Iva $</span><span class="counter">{{preciosiniva | currency}}</span></h3>
+                    <h3><span>Impuesto $</span><span class="counter">{{montoiva | number}}</span></h3>
+                    <h3><span>Precio Con Iva $</span><span class="counter">{{precioconiva | number}}</span></h3>
+                  </div>
+                  <div class="price-graph">
+                    <span id="sparkline1"></span>
+                  </div>
+                </div>
+
+                <div class="clear"></div>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+
+
+      </div>
+    </div>
+  </div>
+  <br>
+  <br>
+</form>

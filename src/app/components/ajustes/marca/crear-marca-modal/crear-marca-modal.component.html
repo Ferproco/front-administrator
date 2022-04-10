@@ -1,0 +1,50 @@
+<form [formGroup]="formarca" (ngSubmit)="guardarMarca($event)">
+    <div class="modal-content">
+        <div class="modal-header header-color-modal bg-color-3">
+            <h4 class="modal-title">Crear Marcas</h4>
+            <div class="modal-close-area modal-close-df">
+                <a class="close" data-dismiss="modal" (click)="onCancel()"><i class="fa fa-close"></i></a>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="sparkline10-graph">
+                <div class="col-lg-12">
+                    <div id="pwd-container3">
+                        <div class="form-group">
+                            <label for="password3">Nombre</label>
+                            <input formControlName="nommarca"
+                                [ngClass]="{'invalid-data': nommarca.invalid && (nommarca.touched || nommarca.dirty)}"
+                                type="text" class="form-control" placeholder="Ingrese el Nombre de la Marca" />
+                            <div *ngIf="nommarca.invalid  && (nommarca.dirty || nommarca.touched)">
+                                <div *ngIf="nommarca.errors.required">
+                                    Nombre Requerido
+                                </div>
+                                <div class="invalid-mensaje" *ngIf="nommarca.errors.pattern">
+                                    Nombre Incorrecto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" formControlName="status" value="">
+                                <i></i> Activo </label>
+                        </div>
+                    </div>
+                </div>
+
+                
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+
+            <button type="button" (click)="onCancel()" class="btn btn-custon-four btn-default"><span
+                    class="adminpro-icon adminpro-danger-error"></span> Cancelar</button>
+            <button type="submit" class="btn btn-custon-four btn-warning" [disabled]="formarca.invalid">
+                <span class="adminpro-icon adminpro-checked-pro"></span> Aceptar</button>
+        </div>
+    </div>
+</form>

@@ -1,0 +1,253 @@
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+
+<form [formGroup]="formnumeraciondocumento" (ngSubmit)="guardarNumeracionDocumento($event)">
+  <div class="content-inner-all">
+    <!-- Breadcome start-->
+    <div class="breadcome-area mg-b-30 small-dn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcome-list shadow-reset">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="breadcome-heading">
+                    <button type="submit" class="form-control"><i class="fa fa-save" aria-hidden="true"></i>
+                      Guardar</button>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="breadcome-menu">
+                    <li>
+                      <a routerLink="/main/dashboard">Inicio</a>
+                      <span class="bread-slash">/ Configuración /</span>
+                    </li>
+                    <li>
+                      <a routerLink="/main/dashboard/configuraciones/listarnumeraciondocumentos"><span
+                          class="bread-blod">Listado de
+                          Numeracion Documentos /</span></a>
+                    </li>
+                    <li><span class="bread-blod">Crear</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-inner-all">
+    <!-- Breadcome End-->
+    <div class="admin-dashone-data-table-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="sparkline13-list shadow-reset">
+              <div class="sparkline13-hd">
+                <div class="main-sparkline13-hd">
+                  <h1>
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    Registro <span class="table-project-n">de</span> Numeracion Documentos
+                  </h1>
+                </div>
+              </div>
+              <div class="sparkline10-graph">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <div class="col-lg-6">
+                          <mat-slide-toggle (change)="onChange($event)" formControlName="status">{{Objetoestado}}
+                          </mat-slide-toggle>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <br>
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <label for="username">Tipo Documento</label>
+                      <div class="form-group">
+                        <select class="select2_demo_3 form-control" formControlName="codtipodocumento" (change)="onChangeSelect($event)"
+                        [ngClass]="{'invalid-data': codtipodocumento.invalid && (codtipodocumento.touched || codtipodocumento.dirty)}">
+                          <option [value]="null">--Seleccione--</option>
+                          <option value="{{tipodocumento.idtipodocumento}}"
+                            *ngFor="let tipodocumento of lstTipoDocumentos">
+                            {{tipodocumento.nombre}}</option>
+                        </select>
+                        <div *ngIf="codtipodocumento.invalid  && (codtipodocumento.dirty || codtipodocumento.touched)">
+                          <div class="invalid-mensaje" *ngIf="codtipodocumento.errors.required">
+                            Tipo Documento Requerido
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Nombre</label>
+                        <input formControlName="nombre"
+                          [ngClass]="{'invalid-data': nombre.invalid && (nombre.touched || nombre.dirty)}" type="text"
+                          class="form-control" placeholder="Ingrese el Nombre" />
+                        <div class="invalid-mensaje" *ngIf="nombre.invalid  && (nombre.dirty || nombre.touched)">
+                          <div *ngIf="nombre.errors.required">
+                            Nombre Requerido
+                          </div>
+                          <div *ngIf="nombre.errors.pattern">
+                            Nombre Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Prefijo</label>
+                        <input formControlName="prefijo"
+                          [ngClass]="{'invalid-data': prefijo.invalid && (prefijo.touched || prefijo.dirty)}"
+                          type="text" class="form-control" placeholder="Prefijo de la Factura" />
+                        <div class="invalid-mensaje"
+                          *ngIf="prefijo.invalid  && (prefijo.dirty || prefijo.touched)">
+                          <div *ngIf="prefijo.errors.required">
+                            Prefijo Requerido
+                          </div>
+                          <div *ngIf="prefijo.errors.pattern">
+                            Prefijo Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Proxima Numeracion de {{tipodocument}}</label>
+                        <input formControlName="proximonumerodocumento"
+                          [ngClass]="{'invalid-data': proximonumerodocumento.invalid && (proximonumerodocumento.touched || proximonumerodocumento.dirty)}"
+                          type="number" class="form-control" placeholder="Proxima Numeracion" />
+                        <div class="invalid-mensaje"
+                          *ngIf="proximonumerodocumento.invalid  && (proximonumerodocumento.dirty || proximonumerodocumento.touched)">
+                          <div *ngIf="proximonumerodocumento.errors.required">
+                            Proxima  Numeracion de {{tipodocument}} Requerido
+                          </div>
+                          <div *ngIf="proximonumerodocumento.errors.pattern">
+                            Proxima  Numeracion de {{tipodocument}} Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+                <div class="row">
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Desde el Numero</label>
+                        <input formControlName="desdenumero"
+                          [ngClass]="{'invalid-data': desdenumero.invalid && (desdenumero.touched || desdenumero.dirty)}"
+                          type="number" class="form-control" placeholder="Desde que Numeracion Inicia" />
+                        <div class="invalid-mensaje"
+                          *ngIf="desdenumero.invalid  && (desdenumero.dirty || desdenumero.touched)">
+                          <div *ngIf="desdenumero.errors.required">
+                            Desde Numeracion Requerido
+                          </div>
+                          <div *ngIf="desdenumero.errors.pattern">
+                            Desde Numeracion Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-3">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Hasta el Numero</label>
+                        <input formControlName="hastanumero"
+                          [ngClass]="{'invalid-data': hastanumero.invalid && (hastanumero.touched || hastanumero.dirty)}"
+                          type="number" class="form-control" placeholder="Desde que Numeracion Final" />
+                        <div class="invalid-mensaje"
+                          *ngIf="hastanumero.invalid  && (hastanumero.dirty || hastanumero.touched)">
+                          <div *ngIf="hastanumero.errors.required">
+                            Hasta Numeracion Requerido
+                          </div>
+                          <div *ngIf="hastanumero.errors.pattern">
+                            Hasta Numeracion Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="username">Resolucion</label>
+                        <textarea formControlName="resolucion"
+                          [ngClass]="{'invalid-data': resolucion.invalid && (resolucion.touched || resolucion.dirty)}"
+                          type="text" class="form-control" placeholder="Ingrese la Descripción Larga"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div class="col-lg-6">
+                      <div id="pwd-container3" hidden=true>
+                        <div class="form-group">
+                          <label for="password3">Nombre</label>
+                          <input formControlName="tipodedocumento"
+                            [ngClass]="{'invalid-data': tipodedocumento.invalid && (tipodedocumento.touched || tipodedocumento.dirty)}"
+                            type="text" class="form-control" placeholder="Ingrese el Nombre" />
+                          <div *ngIf="tipodedocumento.invalid  && (tipodedocumento.dirty || tipodedocumento.touched)">
+                            <div *ngIf="tipodedocumento.errors.required">
+                              Nombre Requerido
+                            </div>
+                            <div class="invalid-mensaje" *ngIf="tipodedocumento.errors.pattern">
+                              Nombre Incorrecto
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label>
+                          <input type="checkbox" formControlName="principal" value="">
+                          <i></i> Principal </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+</form>

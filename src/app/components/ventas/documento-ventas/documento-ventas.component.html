@@ -1,0 +1,586 @@
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="DocumentoVentaForm" (ngSubmit)="onFormSubmit($event)">
+  <div class="content-inner-all">
+    <!-- Breadcome start-->
+    <div class="breadcome-area mg-b-30 small-dn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcome-list shadow-reset">
+              <div class="row">
+                <div class="col-lg-6">
+                  <div class="breadcome-heading">
+                    <button type="submit" class="form-control" [disabled]="DocumentoVentaForm.invalid"><i
+                        class="fa fa-save" aria-hidden="true"></i> Guardar
+                    </button>
+                  </div>
+                </div>
+                <div class="col-lg-6">
+                  <ul class="breadcome-menu">
+                    <li>
+                      <a routerLink="/main/dashboard">Inicio</a>
+                      <span class="bread-slash">/ Ventas /</span>
+                    </li>
+                    <li>
+                      <a routerLink="{{url}}"><span class="bread-blod">Listado de
+                          {{titulo}} /</span></a>
+                    </li>
+                    <li><span class="bread-blod">Crear</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <div class="content-inner-all">
+
+    <div class="user-profile-area">
+      <div class="container-fluid">
+
+
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+              <div class="user-profile-wrap shadow-reset">
+                  <div class="row">
+                      <div class="col-lg-4">
+                          <div class="row">                          
+                              <div class="col-lg-8">
+                                  <div class="user-profile-content">
+                                    <h4>{{nombreprimero}}</h4>
+                                        <div class="input-group">
+                                          <span class="input-group-btn"><button type="button" (click)="onListarClientes()"
+                                              class="btn btn-primary">+</button></span>
+                                          <input value="{{numeroidentificacion}}" type="text" class="form-control"
+                                            placeholder="Seleccione Contacto" (keydown.enter)="onKeyDownEvent($event)"/>
+                                          <span class="input-group-btn"><button type="button" (click)="onListarClientes()"
+                                              class="btn btn-primary"><i class="fa fa-search"></i></button></span>
+                                        </div>
+                                        
+                                        <p class="profile-founder"><strong>Tipo Persona</strong> {{tipopersona}} <strong>Telefono</strong> {{telefono}}
+                                        </p>
+                                        <p class="profile-des">{{direccionfiscal}}</p>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-lg-4">
+                          <div class="user-profile-social-list">
+                              <table class="table small m-b-xs">
+                                  <tbody>
+                                      <tr>
+                                          <td>
+                                            <strong>Plazo Crédito</strong>
+                                            <div class="input-group">
+                                              <span class="input-group-btn"><button type="button" (click)="onCrearPlazoCredito()"
+                                                  class="btn btn-primary">+</button></span>
+                                              <select class="select2_demo_3 form-control" formControlName="codformapago">
+                
+                                                <option [value]="formapago.id" *ngFor="let formapago of lstformaspago">
+                                                  {{formapago.nombre}}</option>
+                                              </select>
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <strong>Numero Documento</strong>
+                                            <div class="input-group">
+                                              <input formControlName="numerodocumento" type="text" class="form-control"
+                                                placeholder="Numero de Documento" />
+                                              <span class="input-group-btn"><button type="button" (click)="onModificarNumeracionDocumento()"
+                                                  class="btn btn-primary"><i class="adminpro-icon adminpro-settings"></i></button></span>
+                                            </div>
+                                          </td>
+
+                                      </tr>
+                                      <tr>
+                                          <td>
+                                            <strong>Fecha</strong>
+                                            <div class="input-group date">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                              <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="fechaemision"
+                                                [bsConfig]="bsConfig">
+                                            </div>
+                                          </td>
+                                          <td>
+                                            <strong>Vence el</strong>
+                                            <div class="input-group date">
+                                              <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                              <input class="form-control" bsDatepicker #dp="bsDatepicker"
+                                                formControlName="fechavencimiento" [bsConfig]="bsConfig">
+                                            </div>
+                                          </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2">
+                                          <strong>Vendedor</strong>
+                                          <div class="input-group">
+                                            <span class="input-group-btn"><button type="button"
+                                                class="btn btn-primary">+</button></span>
+                                            <select class="select2_demo_3 form-control" formControlName="codvendedor">
+                                              <option [value]="vendedor.id" *ngFor="let vendedor of lstVendedores">
+                                                {{vendedor.nombre}}</option>
+                                            </select>
+                                          </div>
+                                        </td>
+                                      </tr>
+                                  </tbody>
+                              </table>
+                          </div>
+                      </div>
+                      <div class="col-lg-4">
+                        <div class="skill-content-3">
+                          <div class="skill">
+                              <div class="progress">
+                                  <div class="lead-content">
+                                      <h3>{{montototalsiniva}}</h3>
+                                      <p>Neto</p>
+                                  </div>
+                                  <div class="progress-bar wow fadeInLeft" data-progress="100%" style="width: 100%;" data-wow-duration="1.5s" data-wow-delay="1.2s"> 
+                                  </div>
+                              </div>
+                              <div class="progress">
+                                  <div class="lead-content">
+                                      <h3>0</h3>
+                                      <p>Iva</p>
+                                  </div>
+                                  <div class="progress-bar wow fadeInLeft" data-progress="100%" style="width: 100%;" data-wow-duration="1.5s" data-wow-delay="1.2s"></div>
+                              </div>
+                              <div class="progress progress-bt">
+                                  <div class="lead-content">
+                                      <h3>0</h3>
+                                      <p>Total</p>
+                                  </div>
+                                  <div class="progress-bar wow fadeInLeft" data-progress="100%" style="width: 100%;" data-wow-duration="1.5s" data-wow-delay="1.2s"> </div>
+                              </div>
+                          </div>
+                      </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+      </div>
+    </div>
+  </div>
+
+  <div class="content-inner-all">
+    <!-- Breadcome End-->
+    <div class="project-details-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+            <div class="project-details-wrap shadow-reset">
+
+              <div class="row">
+                <div class="col-lg-12">
+
+
+                  <div class="sparkline10-graph">
+                    <div class="static-table-list">
+                      <!--   <button type="button" class="btn btn-custon-four btn-primary" (click)="addItem()">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Agregar</button>!-->
+                      <table class="table border-table">
+                        <thead>
+                          <tr>
+                            <th>Item</th>
+                            <th>Descripción</th>
+                            <th>U Medida</th>
+                            <th>Cantidad</th>
+                            <th>Bodega</th>
+                            <th>Precio Uni.</th>
+                            <th>Dcto (%)</th>
+                            <th>Impuestos</th>
+                            <th>Precio Total</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody formArrayName="lstdetallesdocumentoventas">
+                          <tr *ngFor="let lstdetallesdocumentoventas of ListItems.controls; let i = index"
+                            [formGroup]="ListItems.controls[i]">
+                            <td>
+                              <div class="input-group">
+                                <span class="input-group-btn"><button type="button" (click)="onListarArticulos(i)"
+                                    class="btn btn-primary">+</button></span>
+                                <input type="text" class="form-control" formControlName="codarticulo"
+                                  placeholder="Codigo Items" style="width:100%" />
+                                <span class="input-group-btn"><button type="button" (click)="onListarArticulos(i)"
+                                    class="btn btn-primary"><i class="fa fa-search"></i></button></span>
+                              </div>
+                            </td>
+                            <td><input type="text" value="{{nombrearticulo[i]}}" class="form-control" /></td>
+                            <td>
+                              <select class="select2_demo_3 form-control" formControlName="codunidadmedida">
+                                <option value="0">--Seleccione--</option>
+                                <option value="{{unidad.id}}" *ngFor="let unidad of lstUnidades">
+                                  {{unidad.nomunidadmedida}}</option>
+                              </select>
+                            </td>
+                            <td>
+                              <input type="number" class="form-control" formControlName="cantidad"
+                                (change)="CalcularPrecioVenta(i)" style="width:70px" />
+                            </td>
+                            <td>
+                              <select class="select2_demo_3 form-control" formControlName="codalmacen">
+                                <option value="0">--Seleccione--</option>
+                                <option value="{{almacen.idalmacen}}" *ngFor="let almacen of lstAlmacenes">
+                                  {{almacen.nombre}}</option>
+                              </select>
+                            </td>
+                            <td><input type="number" class="form-control" formControlName="preciounitariosiniva"
+                                (change)="CalcularPrecioVenta(i)" /></td>
+                            <td><input type="number" class="form-control" formControlName="porcentajedescuento"
+                                style="width:70px" /></td>
+
+                            <td>
+                              <select class="select2_demo_3 form-control" formControlName="codimpuesto">
+                                <option value="0">--Seleccione--</option>
+                                <option value="{{impuesto.idimpuesto}}" *ngFor="let impuesto of lstImpuestos">
+                                  {{impuesto.tipoimpuesto}} {{impuesto.normal}}%</option>
+                              </select>
+                            </td>
+                            <td>
+                              <input type="number" class="form-control" formControlName="baseimponible"
+                                style="width:140px" />
+                            </td>
+                            <td>
+                              <div class="btn-group project-list-add">
+                                <button class="btn btn-white btn-xs"> <i class="fa fa-trash-o"
+                                    aria-hidden="true"></i></button>
+                              </div>
+                            </td>
+                          </tr>
+
+                        </tbody>
+                      </table>
+                      <button type="button" class="btn btn-custon-four btn-primary" (click)="addItem()">
+                        <i class="fa fa-plus-circle" aria-hidden="true"></i>
+                        Agregar</button>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+ <!-- <div class="content-inner-all">
+    <div class="admin-dashone-data-table-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-9">
+            <div class="sparkline13-list shadow-reset">
+              <div class="sparkline13-hd">
+                <div class="main-sparkline13-hd">
+                  <h1>
+                    <i class="fa fa-edit" aria-hidden="true"></i>
+                    Registro <span class="table-project-n">de</span> {{titulo}}
+                  </h1>
+                </div>
+              </div>
+              <div class="project-details-wrap shadow-reset">
+                <div class="row">
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Contacto:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="input-group">
+                            <span class="input-group-btn"><button type="button" (click)="onListarClientes()"
+                                class="btn btn-primary">+</button></span>
+                            <input value="{{nombreprimero}}" type="text" class="form-control"
+                              placeholder="Seleccione Contacto" />
+                            <span class="input-group-btn"><button type="button" (click)="onListarClientes()"
+                                class="btn btn-primary"><i class="fa fa-search"></i></button></span>
+                          </div>
+
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                    </div>
+
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Identificación:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="project-details-dt">
+                            <input value="{{ numeroidentificacion }}" disabled type="text" class="form-control" />
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Telefono:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="project-details-dt">
+                            <div class="project-details-dt">
+                              <input value="{{telefono}}" disabled type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Tipo Persona:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="project-details-dt">
+                            <div class="project-details-dt">
+                              <input value="{{tipopersona}}" disabled type="text" class="form-control" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Direccion:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="project-details-dt">
+                            <textarea value="{{direccionfiscal}}" disabled type="text" class="form-control"></textarea>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Fecha:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control" bsDatepicker #dp="bsDatepicker" formControlName="fechaemision"
+                              [bsConfig]="bsConfig">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Plazo de Credito:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="input-group">
+                            <span class="input-group-btn"><button type="button" (click)="onCrearPlazoCredito()"
+                                class="btn btn-primary">+</button></span>
+                            <select class="select2_demo_3 form-control" formControlName="codformapago">
+
+                              <option [value]="formapago.id" *ngFor="let formapago of lstformaspago">
+                                {{formapago.nombre}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Vence el:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="input-group date">
+                            <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                            <input class="form-control" bsDatepicker #dp="bsDatepicker"
+                              formControlName="fechavencimiento" [bsConfig]="bsConfig">
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Vendedor:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="input-group">
+                            <span class="input-group-btn"><button type="button"
+                                class="btn btn-primary">+</button></span>
+                            <select class="select2_demo_3 form-control" formControlName="codvendedor">
+                              <option [value]="vendedor.id" *ngFor="let vendedor of lstVendedores">
+                                {{vendedor.nombre}}</option>
+                            </select>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="project-details-mg">
+                      <div class="row">
+                        <div class="col-lg-4 col-md-4 col-sm-4 col-xs-12">
+                          <div class="project-details-st">
+                            <span><strong>Status:</strong></span>
+                          </div>
+                        </div>
+                        <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                          <div class="btn-group project-list-ad">
+                            <button class="btn btn-white btn-xs">Active</button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-3">
+            <div class="sparkline8-list basic-res-b-30 shadow-reset">
+              <div class="sparkline8-hd">
+                <div class="main-sparkline8-hd">
+                  <h1>Numero Documento <span class="table-project-n"></span>
+                  </h1>
+                  <div class="input-group">
+                    <input formControlName="numerodocumento" type="text" class="form-control"
+                      placeholder="Numero de Documento" />
+                    <span class="input-group-btn"><button type="button" (click)="onModificarNumeracionDocumento()"
+                        class="btn btn-primary"><i class="adminpro-icon adminpro-settings"></i></button></span>
+                  </div>
+                </div>
+
+              </div>
+              <div class="sparkline8-graph project-details-price-hd">
+                <div class="main-sparkline8-hd">
+                  <h1>SubTotal <span class="table-project-n"></span></h1>
+                  <div class="sparkline8-outline-icon">
+                    <h1>{{montototalsiniva}}</h1>
+                  </div>
+                </div>
+                <div class="main-sparkline8-hd">
+                  <h1>Descuento <span class="table-project-n"></span></h1>
+                  <div class="sparkline8-outline-icon">
+                    <h1>0,00</h1>
+                  </div>
+                </div>
+              </div>
+              <div class="sparkline8-graph project-details-price-hd">
+
+
+                <div class="main-sparkline8-hd">
+                  <h1>Total <span class="table-project-n"></span></h1>
+                  <div class="sparkline8-outline-icon">
+                    <h1></h1>
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="content-inner-all">
+
+    <div class="project-details-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12">
+
+          </div>
+          <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+            <div class="income-dashone-total income-monthly shadow-reset nt-mg-b-30 res-mg-t-30">
+              <div class="income-title">
+                <div class="main-income-head">
+                  <h2>Sub Total</h2>
+                  <div class="income-rate-total">
+                    <div class="price-adminpro-rate">
+                      <h3><span>$</span><span class="counter">0.00</span></h3>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+              <div class="income-title">
+                <div class="main-income-head">
+                  <h2>Descuento</h2>
+                  <div class="income-rate-total">
+                    <div class="price-adminpro-rate">
+                      <h3><span>$</span><span class="counter">0.00</span></h3>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+
+              <div class="income-title">
+                <div class="main-income-head">
+                  <h2>Precio Total Neto</h2>
+                  <div class="income-rate-total">
+                    <div class="price-adminpro-rate">
+                      <h3><span>$</span><span class="counter">0.00</span></h3>
+                    </div>
+
+                  </div>
+                </div>
+
+
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>-->
+
+
+</form>

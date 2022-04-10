@@ -1,0 +1,102 @@
+<table class="table border-table" mat-table [dataSource]="dataSource" matSort (matSortChange)="sortData($event)">
+  <ng-container matColumnDef="select">
+    <th mat-header-cell *matHeaderCellDef>
+      <mat-checkbox (change)="$event ? masterToggle() : null"
+        [checked]="selection.hasValue() && isAllSelected()"
+        [indeterminate]="selection.hasValue() && !isAllSelected()" [aria-label]="checkboxLabel()">
+      </mat-checkbox>
+    </th>
+    <td mat-cell *matCellDef="let row">
+      <mat-checkbox (click)="$event.stopPropagation()" (change)="$event ? selection.toggle(row) : null"
+        [checked]="selection.isSelected(row)" [aria-label]="checkboxLabel(row)">
+      </mat-checkbox>
+    </td>
+  </ng-container>
+    <!-- Position Column -->
+    <ng-container matColumnDef="Fecha">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header>
+        FECHA
+      </th>
+      <td mat-cell *matCellDef="let element"> {{element.fecha | date:'dd-MM-yyyy'}} </td>
+    </ng-container>
+
+  <!-- Position Column -->
+  <ng-container matColumnDef="Codigo">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+      CODIGO
+    </th>
+    <td mat-cell *matCellDef="let element"> {{element.articulo?.codigo}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Items">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ITEMS </th>
+    <td mat-cell *matCellDef="let element"> {{element.articulo?.nomarticulo}} </td>
+  </ng-container>
+
+  <!-- Tercero Column -->
+  <ng-container matColumnDef="Tercero">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> TERCERO </th>
+    <td mat-cell *matCellDef="let element">  {{element.contacto?.nombreprimero}}  </td>
+  </ng-container>
+
+   <!-- Tercero Column -->
+   <ng-container matColumnDef="Tipo Documento">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> TIPO DOCUMENTO </th>
+    <td mat-cell *matCellDef="let element">  </td>
+  </ng-container>
+
+     <!-- Name Column -->
+     <ng-container matColumnDef="Concepto">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> CONCEPTO </th>
+      <td mat-cell *matCellDef="let element"> {{element.concepto}} </td>
+    </ng-container>
+
+   <!-- Almacen Column -->
+   <ng-container matColumnDef="Almacen">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ALMACEN </th>
+    <td mat-cell *matCellDef="let element"> {{element.almacen?.nombre}} </td>
+  </ng-container>
+
+  <!-- Name Column -->
+  <ng-container matColumnDef="Documento Asociado">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> NRO DOCUMENTO </th>
+    <td mat-cell *matCellDef="let element"> {{element.documentoasociado}} </td>
+  </ng-container>
+
+  <!-- Entrada Column -->
+  <ng-container matColumnDef="Entrada">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> ENTRADA </th>
+    <td mat-cell *matCellDef="let element"> {{element.entrada | number: '1.0-2'}} </td>
+  </ng-container>
+
+   <!-- Salida Column -->
+   <ng-container matColumnDef="Salida">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> SALIDA </th>
+    <td mat-cell *matCellDef="let element"> {{element.salida | number: '1.0-2' }} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="Und Medida">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> UNIDAD </th>
+    <td mat-cell *matCellDef="let element"> {{element.unidadmedida?.nomunidadmedida}} </td>
+  </ng-container>
+  <ng-container matColumnDef="Costo Promedio">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> COSTO/PRECIO </th>
+    <td mat-cell *matCellDef="let element"> {{element.montoxunidad | currency}} </td>
+  </ng-container>
+  <ng-container matColumnDef="Total">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header> TOTAL </th>
+    <td mat-cell *matCellDef="let element"> {{element.montototal | currency}}  </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+  <tr class="mat-row" *matNoDataRow>
+    <td class="mat-cell" colspan="8">No hay resultados para busqueda</td>
+  </tr>
+</table>
+<div class="mat-paginator-container">
+  <mat-paginator [length]="LengthTable" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+    showFirstLastButtons>
+  </mat-paginator>
+</div>

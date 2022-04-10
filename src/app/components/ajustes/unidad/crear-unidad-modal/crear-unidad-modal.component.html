@@ -1,0 +1,66 @@
+<form [formGroup]="formunidad" (ngSubmit)="guardarUnidad($event)">
+    <div class="modal-content">
+        <div class="modal-header header-color-modal bg-color-3">
+            <h4 class="modal-title">Registro de Unidades</h4>
+            <div class="modal-close-area modal-close-df">
+                <a class="close" data-dismiss="modal" (click)="onCancel()"><i class="fa fa-close"></i></a>
+            </div>
+        </div>
+
+        <div class="modal-body">
+            <div class="sparkline10-graph">
+                <div class="col-lg-12">
+                    <div id="pwd-container3">
+                        <div class="form-group">
+                            <label for="password3">Nombre</label>
+                            <input formControlName="nomunidadmedida"
+                                [ngClass]="{'invalid-data': nomunidadmedida.invalid && (nomunidadmedida.touched || nomunidadmedida.dirty)}"
+                                type="text" class="form-control" placeholder="Ingrese el Nombre" />
+                            <div *ngIf="nomunidadmedida.invalid  && (nomunidadmedida.dirty || nomunidadmedida.touched)">
+                                <div *ngIf="nomunidadmedida.errors.required">
+                                    Nombre Requerido
+                                </div>
+                                <div class="invalid-mensaje" *ngIf="nomunidadmedida.errors.pattern">
+                                    Nombre Incorrecto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="password3">Abreviatura</label>
+                            <input formControlName="abrevunidadmedida"
+                                [ngClass]="{'invalid-data': abrevunidadmedida.invalid && (abrevunidadmedida.touched || abrevunidadmedida.dirty)}"
+                                type="text" class="form-control" placeholder="Ingrese el Nombre" />
+                            <div *ngIf="abrevunidadmedida.invalid  && (abrevunidadmedida.dirty || abrevunidadmedida.touched)">
+                                <div *ngIf="abrevunidadmedida.errors.required">
+                                    Nombre Requerido
+                                </div>
+                                <div class="invalid-mensaje" *ngIf="abrevunidadmedida.errors.pattern">
+                                    Nombre Incorrecto
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox" formControlName="status" value="">
+                                <i></i> Activo </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-12">
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="modal-footer">
+            <button type="button" (click)="onCancel()" class="btn btn-custon-four btn-default"><span
+                    class="adminpro-icon adminpro-danger-error"></span> Cancelar</button>
+            <button type="submit" class="btn btn-custon-four btn-warning" [disabled]="formunidad.invalid">
+                <span class="adminpro-icon adminpro-checked-pro"></span> Aceptar</button>
+        </div>
+    </div>
+</form>

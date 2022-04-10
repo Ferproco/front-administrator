@@ -1,0 +1,96 @@
+<div class="modal-content">
+  <div class="modal-header header-color-modal bg-color-3">
+    <h2>Catalogo de Contactos</h2>
+    <div class="modal-close-area modal-close-df">
+      <a class="close" data-dismiss="modal" (click)="onCancel()"><i class="fa fa-close"></i></a>
+    </div>
+  </div>
+  <div class="modal-body">
+    <table class="table" mat-table [dataSource]="dataSource" matSort>
+      <!-- Position Column -->
+      <ng-container matColumnDef="TIPO IDENTIFICACION">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>
+          TIPO IDENTIFICACION
+        </th>
+        <td mat-cell *matCellDef="let element"> {{element.tipoidentificacion.nombre}} </td>
+      </ng-container>
+
+      <!-- Name Column -->
+      <ng-container matColumnDef="N° IDENTIFICACION">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> N° IDENTIFICACION </th>
+        <td mat-cell *matCellDef="let element"> {{element.numeroidentificacion}} </td>
+      </ng-container>
+
+      <!-- Weight Column -->
+      <ng-container matColumnDef="NOMBRE">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> NOMBRE </th>
+        <td mat-cell *matCellDef="let element"> {{element.nombreprimero}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="TELEFONO">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> TELEFONO </th>
+        <td mat-cell *matCellDef="let element"> {{element.telefonofijo1}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="EMAIL">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> EMAIL </th>
+        <td mat-cell *matCellDef="let element"> {{element.correoe}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ESTATUS">
+        <th mat-header-cell *matHeaderCellDef> ESTATUS </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.status === 'ACTIVO'; else inactivo" class="btn-group project-list-add">
+            <button class="btn btn-white btn-xs">Activo </button>
+          </div>
+          <ng-template #inactivo>
+            <div class="btn-group project-list-ad-rd">
+              <button class="btn btn-white btn-xs">Inactivo</button>
+            </div>
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="TIPO PERSONA">
+        <th mat-header-cell *matHeaderCellDef> TIPO CONTACTO </th>
+        <td mat-cell *matCellDef="let element">
+          <div *ngIf="element.codtipocontacto === 1; else proveedor">
+            <i></i> Cliente
+          </div>
+          <ng-template #proveedor>
+            <i></i> Proveedor
+          </ng-template>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="ACCION">
+        <th mat-header-cell *matHeaderCellDef> ACCION </th>
+        <td mat-cell *matCellDef="let element" class="datatable-ct">
+          <div class="btn-group project-list-add">
+            <button (click)="Seleccionar(element.id)"  class="btn btn-white btn-xs"><i class="fa fa-eye"
+                aria-hidden="true"></i> </button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+      <tr class="mat-row" *matNoDataRow>
+        <td class="mat-cell" colspan="8">No hay resultados para busqueda</td>
+      </tr>
+    </table>
+    <div class="mat-paginator-container">
+      <mat-paginator [length]="LengthTable" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+
+
+
+  </div>
+  <div class="modal-footer">
+    <a (click)="onCancel()">Cancelar</a>
+
+  </div>
+</div>

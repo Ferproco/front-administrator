@@ -1,0 +1,89 @@
+<form [formGroup]="formformapago" (ngSubmit)="guardarFormaPago($event)">
+  <div class="modal-content">
+
+    <div class="modal-header header-color-modal bg-color-3">
+      <h4 class="modal-title">Crear Plazo de Pago</h4>
+      <div class="modal-close-area modal-close-df">
+        <a class="close" data-dismiss="modal" (click)="onCancel()"><i class="fa fa-close"></i></a>
+      </div>
+    </div>
+
+    <div class="modal-body">
+      <div class="sparkline10-graph">
+        <div class="col-lg-12">
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div id="pwd-container3">
+                <div class="form-group">
+                  <label for="password3">Nombre</label>
+                  <input formControlName="nombre"
+                    [ngClass]="{'invalid-data': nombre.invalid && (nombre.touched || nombre.dirty)}" type="text"
+                    type="text" class="form-control" placeholder="Ingrese el Nombre del Plazo de Pago" />
+                  <div *ngIf="nombre.invalid  && (nombre.dirty || nombre.touched)">
+                    <div *ngIf="nombre.errors.required">
+                      Nombre Requerido
+                    </div>
+                    <div class="invalid-mensaje" *ngIf="nombre.errors.pattern">
+                      Nombre Incorrecto
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+               
+          
+
+          <div class="row">
+            <div class="col-lg-6">
+              <div id="pwd-container3">
+                <div class="form-group">
+                  <label for="password3">Dias</label>
+                  <input formControlName="dias" class="form-control"
+                    [ngClass]="{'invalid-data': dias.invalid && (dias.touched || dias.dirty)}" type="number"
+                    placeholder="Ingrese los dias del Plazo de Pago" />
+                  <div class="invalid-mensaje" *ngIf="dias.invalid  && (dias.dirty || dias.touched)">
+                    <div *ngIf="dias.errors.required">
+                      Dias Requerido
+                    </div>
+                    <div *ngIf="dias.errors.pattern">
+                      Dias Incorrecto
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
+
+        </div>
+        
+        <div class="row">
+          <div class="col-lg-12">
+            <div id="pwd-container3">
+              <div class="form-group">
+                <label>
+                  <input type="checkbox" formControlName="status" value="" (change)="onChange($event)">
+                  <i></i> Activo</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-12">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" (click)="onCancel()" class="btn btn-custon-four btn-default"><span
+          class="adminpro-icon adminpro-danger-error"></span> Cancelar</button>
+      <button type="submit" class="btn btn-custon-four btn-warning" [disabled]="formformapago.invalid">
+        <span class="adminpro-icon adminpro-checked-pro"></span> Aceptar</button>
+    </div>
+
+
+  </div>
+</form>

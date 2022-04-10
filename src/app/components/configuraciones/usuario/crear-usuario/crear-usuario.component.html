@@ -1,0 +1,233 @@
+<div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<form [formGroup]="formusuario" (ngSubmit)="guardarUsuario($event)">
+
+    <div class="content-inner-all">
+        <!-- Breadcome start-->
+        <div class="breadcome-area mg-b-30 small-dn">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="breadcome-list shadow-reset">
+                            <div class="row">
+                                <div class="col-lg-6">
+                                    <div class="breadcome-heading">
+                                        <button type="submit" (mouseover)="cargarRequeridos($event)"
+                                            matTooltip="{{camposrequeridos}}" class="form-control"><i class="fa fa-save"
+                                                aria-hidden="true"></i> Guardar
+                                        </button>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6">
+                                    <ul class="breadcome-menu">
+                                        <li>
+                                            <a routerLink="/main/dashboard">Inicio</a>
+                                            <span class="bread-slash">/ Configuración /</span>
+                                        </li>
+                                        <li>
+                                            <a routerLink="/main/dashboard/configuraciones/listarusuarios"><span
+                                                    class="bread-blod">Listado de
+                                                    Usuarios /</span></a>
+                                        </li>
+                                        <li><span class="bread-blod">Crear</span>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Static Table Start -->
+
+    <!-- Static Table Start -->
+    <div class="content-inner-all">
+        <div class="admin-dashone-data-table-area mg-b-15">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="sparkline13-list shadow-reset">
+                            <div class="sparkline13-hd">
+                                <div class="main-sparkline13-hd">
+                                    <h1>
+                                        <i class="fa fa-edit" aria-hidden="true"></i>
+                                        Registro <span class="table-project-n">de</span> Usuario
+                                    </h1>
+                                </div>
+                            </div>
+                            <div class="sparkline10-graph">
+                                <div class="row">
+                                    <div class="col-lg-6">
+                                        
+                                    </div>
+                                    <div class="col-lg-2">
+                                        <mat-slide-toggle (change)="onChange($event)" formControlName="activo">Activo
+                                        </mat-slide-toggle>
+                                    </div>
+                                </div>
+                                <br>
+                                <div class="row">
+                                    <div class="col-lg-4">
+                                        <div id="pwd-container3">
+                                            <div class="form-group">
+                                                <label for="username">Email*</label>
+                                                <input formControlName="email"
+                                                    [ngClass]="{'invalid-data': email.invalid && (email.touched || email.dirty)}"
+                                                    type="text" class="form-control" placeholder="Ingrese el email" />
+                                                <div *ngIf="email.invalid  && (email.dirty || email.touched)">
+                                                    <div *ngIf="email.errors.required">
+                                                        email Requerido
+                                                    </div>
+                                                    <div *ngIf="email.errors.email">
+                                                        Email incorrecto
+                                                    </div>                                                    
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div id="pwd-container3">
+                                            <div class="form-group">
+                                                <label for="username">Ocupacion</label>
+                                                <input formControlName="ocupacion"
+                                                    [ngClass]="{'invalid-data': ocupacion.invalid && (ocupacion.touched || ocupacion.dirty)}"
+                                                    type="text" class="form-control" placeholder="Ingrese la Ocupacion" />
+                                                <div *ngIf="ocupacion.invalid  && (ocupacion.dirty || ocupacion.touched)">
+                                                    <div *ngIf="ocupacion.errors.required">
+                                                        Ocupacion Requerido
+                                                    </div>
+                                                    <div class="invalid-mensaje" *ngIf="ocupacion.errors.pattern">
+                                                        Ocupacion Incorrecto
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>     
+                                        <div id="pwd-container3">
+                                            <div class="form-group">
+                                              <label for="password3">Creado el</label>
+                                              <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input class="form-control" disabled bsDatepicker #dp="bsDatepicker"
+                                                  formControlName="creadoel" [bsConfig]="bsConfig">
+                                              </div>
+                                            </div>
+                                          </div>   
+                                          
+                                          <div id="pwd-container3">
+                                            <div class="form-group">
+                                                <label for="username">Password</label>
+                                                <input formControlName="password"
+                                                    [ngClass]="{'invalid-data': password.invalid && (password.touched || password.dirty)}"
+                                                    type="password" class="form-control" />
+                                                <div *ngIf="password.invalid  && (password.dirty || password.touched)">
+                                                    <div *ngIf="password.errors.required">
+                                                        Password Requerido
+                                                    </div>
+                                                    <div *ngIf="password.errors.minlength">
+                                                        Password debe tener minimo 6 caracteres
+                                                    </div>
+                                                    <div *ngIf="password.errors.maxlength">
+                                                        Password debe tener maximo 12 caracteres
+                                                    </div>
+                                                    <div class="invalid-mensaje" *ngIf="password.errors.pattern">
+                                                        password Incorrecto
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <br />
+
+                                    </div>
+                                    <div class="col-lg-4">
+                                        <div id="pwd-container3">
+                                            <div class="form-group">
+                                                <label for="username">Nombre Completo*</label>
+                                                <input formControlName="nombrecompleto"
+                                                    [ngClass]="{'invalid-data': nombrecompleto.invalid && (nombrecompleto.touched || nombrecompleto.dirty)}"
+                                                    type="text" class="form-control"
+                                                    placeholder="Ingrese el  Nombre del usuario" />
+                                                <div
+                                                    *ngIf="nombrecompleto.invalid  && (nombrecompleto.dirty || nombrecompleto.touched)">
+                                                    <div *ngIf="nombrecompleto.errors.required">
+                                                        Nombre de usuario Requerido
+                                                    </div>
+                                                    <div class="invalid-mensaje" *ngIf="nombrecompleto.errors.pattern">
+                                                        Nombre de usuario Incorrecto
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <div id="pwd-container3">
+                                            <div class="form-group">
+                                                <label for="username">Telefono</label>
+                                                <input formControlName="telefono"
+                                                    [ngClass]="{'invalid-data': telefono.invalid && (telefono.touched || telefono.dirty)}"
+                                                    type="text" class="form-control"
+                                                    placeholder="Ingrese el Telefono" />
+                                                <div
+                                                    *ngIf="telefono.invalid  && (telefono.dirty || telefono.touched)">
+                                                    <div *ngIf="telefono.errors.required">
+                                                        Telefono Requerido
+                                                    </div>
+                                                    <div class="invalid-mensaje" *ngIf="telefono.errors.pattern">
+                                                        Telefono Incorrecto
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div> 
+
+                                        <div id="pwd-container3">
+                                            <div class="form-group">
+                                              <label for="password3">Actualizado el</label>
+                                              <div class="input-group date">
+                                                <span class="input-group-addon"><i class="fa fa-calendar"></i></span>
+                                                <input class="form-control" disabled bsDatepicker #dp="bsDatepicker"
+                                                  formControlName="actualizadoel" [bsConfig]="bsConfig">
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div id="pwd-container3">
+                                            <div class="form-group">
+                                                <label for="username">Repetir Password</label>
+                                                <input formControlName="repetirpassword"
+                                                    [ngClass]="{'invalid-data': repetirpassword.invalid && (repetirpassword.touched || repetirpassword.dirty)}"
+                                                    type="password" class="form-control" />
+                                                <div *ngIf="repetirpassword.invalid  && (repetirpassword.dirty || repetirpassword.touched)">
+                                                    <div *ngIf="repetirpassword.errors.required">
+                                                        Password Requerido
+                                                    </div>
+                                                    <div *ngIf="repetirpassword.errors.minlength">
+                                                        Password debe tener minimo 6 caracteres
+                                                    </div>
+                                                    <div *ngIf="repetirpassword.errors.maxlength">
+                                                        Password debe tener maximo 12 caracteres
+                                                    </div>
+                                                    <div *ngIf="repetirpassword.errors.confirmedValidator">
+                                                        Password no coincide
+                                                    </div>
+                                                    
+                                                    <div class="invalid-mensaje" *ngIf="repetirpassword.errors.pattern">
+                                                        Password Incorrecto
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <br>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+</form>

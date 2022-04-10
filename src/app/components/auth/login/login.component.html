@@ -1,0 +1,100 @@
+<div class="loading" *ngIf="loading">
+    <mat-spinner></mat-spinner>
+</div>
+
+<div class="content-inner-all">
+    <div class="login-form-area mg-t-30 mg-b-40">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-4"></div>
+                <form [formGroup]="formuser" (ngSubmit)="login($event)" class="adminpro-form">
+
+                    <div class="col-lg-4">
+                        <div class="login-bg">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="logo">
+                                        <a href="#"><img src="assets/img/logo/log3.png" style="width: 200px;" alt="" />
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="login-input-area">
+                                        <input type="email" formControlName="username" placeholder="Usuario o Email"
+                                            [ngClass]="{'invalid-data': username.invalid && (username.touched || username.dirty)}" />
+                                        <i class="fa fa-envelope login-user" aria-hidden="true"></i>
+                                        <div *ngIf="username.invalid  && (username.dirty || username.touched)">
+                                            <div *ngIf="username.errors.required">
+                                                Usuario o Email Requerido
+                                            </div>
+                                            <div class="invalid-mensaje" *ngIf="username.errors.pattern">
+                                                Usuario o Email Incorrecto
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="login-input-area">
+                                        <input type="password" formControlName="password" placeholder="Contraseña" />
+                                        <i class="fa fa-lock login-user"></i>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="forgot-password">
+                                                <a href="#">Olvido su clave?</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="login-keep-me">
+                                                <label class="checkbox">
+                                                    <input type="checkbox" name="remember" checked><i></i>Recordarme
+                                                </label>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="button-ap-list responsive-btn">
+                                        <button type="submit" [disabled]="!formuser.valid"
+                                            class="form-control btn btn-custon-rounded-three btn-warning">Aceptar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="button-ap-list responsive-btn">
+                                        <button type="button"
+                                            class=" form-control btn btn-custon-rounded-three btn-default">Cancelar</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <br>
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="text-center">
+                                        <p>Versión 1.10.1</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- login End-->
+</div>

@@ -1,0 +1,121 @@
+<div class="loading" *ngIf="loading">
+  <mat-spinner></mat-spinner>
+</div>
+
+
+
+<form [formGroup]="formformapago" (ngSubmit)="guardarFormaPago($event)">
+  <div class="content-inner-all">
+    <!-- Breadcome start-->
+    <div class="breadcome-area mg-b-30 small-dn">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="breadcome-list shadow-reset">
+              <div class="row">
+                <div class="col-lg-2">
+                  <div class="breadcome-heading">
+                    <button type="submit" class="form-control"><i class="fa fa-save" aria-hidden="true"></i>
+                      Guardar</button>
+                  </div>
+                </div>
+
+                <div class="col-lg-10">
+                  <ul class="breadcome-menu">
+                    <li>
+                      <a routerLink="/main/dashboard">Inicio</a>
+                      <span class="bread-slash">/ Ajustes /</span>
+                    </li>
+                    <li>
+                      <a routerLink="/main/dashboard/ajustes/listarformaspagos"><span class="bread-blod">Listado de
+                          Plazos de Pago /</span></a>
+                    </li>
+                    <li><span class="bread-blod">Crear</span>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="content-inner-all">
+    <!-- Breadcome End-->
+    <div class="admin-dashone-data-table-area mg-b-15">
+      <div class="container-fluid">
+        <div class="row">
+          <div class="col-lg-12">
+            <div class="sparkline13-list shadow-reset">
+              <div class="sparkline13-hd">
+                <div class="main-sparkline13-hd">
+                  <h1>
+                    <i class="{{objetoimagen}}" aria-hidden="true"></i>
+                    {{acciondeltitulo}} <span class="table-project-n">de</span> Plazo de Pago
+                  </h1>
+                </div>
+              </div>
+
+              <div class="sparkline10-graph">
+                <div class="row">
+                  <div class="col-lg-4">
+                  </div>
+                  <div class="col-lg-2">
+                    <mat-slide-toggle (change)="onChange($event)" formControlName="status">{{Objetoestado}}
+                    </mat-slide-toggle>
+                  </div>
+                </div>
+                <br>
+                <br>
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Nombre</label>
+                        <input formControlName="nombre" id="nombre" name="nombre"
+                          [ngClass]="{'invalid-data': nombre.invalid && (nombre.touched || nombre.dirty)}" type="text"
+                          class="form-control" placeholder="Ingrese el Nombre del Plazo de Pago" />
+                        <div *ngIf="nombre.invalid  && (nombre.dirty || nombre.touched)">
+                          <div *ngIf="nombre.errors.required">
+                            Nombre Requerido
+                          </div>
+                          <div class="invalid-mensaje" *ngIf="nombre.errors.pattern">
+                            Nombre Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-lg-4">
+                    <div id="pwd-container3">
+                      <div class="form-group">
+                        <label for="password3">Dias</label>
+                        <input formControlName="dias"
+                          [ngClass]="{'invalid-data': dias.invalid && (dias.touched || dias.dirty)}" type="number"
+                          class="form-control" placeholder="Ingrese los dias del Plazo de Pago" />
+                        <div class="invalid-mensaje" *ngIf="dias.invalid  && (dias.dirty || dias.touched)">
+                          <div *ngIf="dias.errors.required">
+                            Dias Requerido
+                          </div>
+                          <div *ngIf="dias.errors.pattern">
+                            Dias Incorrecto
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</form>
